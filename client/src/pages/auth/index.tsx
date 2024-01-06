@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "../../components/logIn";
 import SignUp from "../../components/signUp";
+import { UserAuth } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Authentication() {
   const [logIn, setLogIn] = useState<boolean>(true);
+  const { user } = UserAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, []);
 
   return (
     <div className='w-full h-screen bg-black bg-[url(/bg.svg)] bg-center bg-cover bg-no-repeat'>
@@ -29,7 +38,7 @@ export default function Authentication() {
           Sign Up
         </button>
       </div>
-      {logIn ? <Login /> : <SignUp />}
+      {logIn ? <Login /> : <SignUp setLogIn={setLogIn} />}
     </div>
   );
 }
