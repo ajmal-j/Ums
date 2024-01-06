@@ -4,6 +4,7 @@ import { authApi } from "../../utils/axios";
 import toast from "react-hot-toast";
 import { handleError } from "../../utils/errorHandler";
 import { useNavigate } from "react-router-dom";
+import { setToLocalStorage } from "../../utils/helper";
 
 export type LogInType = {
   email: string;
@@ -17,7 +18,7 @@ export default function Login() {
     password: "",
   });
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const onKeyDown = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name, nextSibling } = e.target;
@@ -43,14 +44,16 @@ export default function Login() {
       authApi
         .post("/logIn", data)
         .then((response) => {
-          const { status } = response;
+          const { data, status } = response;
           if (status === 200 || status === 201) {
             setState({
               email: "",
               password: "",
             });
+            const { userData } = data;
+            setToLocalStorage(userData);
             toast.success("Logged In");
-            navigate('/home')
+            navigate("/home");
           } else {
             console.error(`Unexpected status code: ${status}`);
             toast.error("An unexpected error occurred.");
