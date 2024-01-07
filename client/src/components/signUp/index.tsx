@@ -5,6 +5,7 @@ import { authApi } from "../../utils/axios";
 import toast from "react-hot-toast";
 import { reactSetStateType } from "../../types/types";
 import { handleError } from "../../utils/errorHandler";
+import { saveImage } from "../../utils/helper";
 
 type SignUpType = {
   confirmPassword: string;
@@ -43,31 +44,7 @@ const SignUp = ({ setLogIn }: SignUp) => {
     );
   };
 
-  const saveImage = async () => {
-    const data = new FormData();
-    data.append("file", image);
-    data.append("upload_preset", "dodxauls");
-    data.append("cloud_name", "dho2z1pix");
-    try {
-      if (image === null) {
-        return toast.error("Please Upload image");
-      }
-      const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dho2z1pix/image/upload",
-        {
-          method: "POST",
-          body: data,
-        }
-      );
-      const cloudData = await res.json();
-      setUrl(cloudData.url);
-      toast.success("Image Upload Successfully");
-      let url = await cloudData.url;
-      return url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   // submit from,
   const handleSignUp = async (e: React.FormEvent) => {
@@ -82,7 +59,8 @@ const SignUp = ({ setLogIn }: SignUp) => {
 
       let imageUrl;
       if (!url) {
-        imageUrl = await saveImage();
+        imageUrl = await saveImage(image);
+        setUrl(imageUrl)
       }
       authApi
         .post("/signUp", { ...data, profile: imageUrl || url })

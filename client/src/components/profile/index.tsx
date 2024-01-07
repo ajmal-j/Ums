@@ -1,21 +1,31 @@
-import { useCallback, useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { IoMdClose } from "react-icons/io";
 import { PiSpinner } from "react-icons/pi";
 import { UserDataType } from "../../types/types";
+import { CiEdit } from "react-icons/ci";
+import { RiUploadCloud2Line } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
+import { FiLoader } from "react-icons/fi";
+import { BsSave } from "react-icons/bs";
 import EditInput from "../editInput";
 import {
   UserReduxType,
   setError,
   setLoading,
+  setProfile,
   setUser,
   updateUser,
 } from "../../redux/user";
 import { axiosWithToken } from "../../utils/axios";
 import { UserAuth } from "../../context/userContext";
+import { saveImage, updateLocalStorage } from "../../utils/helper";
+import toast from "react-hot-toast";
 
 export default function Profile() {
   const [edit, setEdit] = useState<boolean>(false);
+  const [loader, setLoader] = useState<boolean>(false);
+  const [imageLoader, setImageLoader] = useState<boolean>(false);
+  const [image, setImage] = useState<Blob | null>(null);
   const [editInputValue, setInput] = useState<UserDataType>({
     name: "",
     email: "",
@@ -27,9 +37,31 @@ export default function Profile() {
   const userReducer = useSelector((state) => state?.userReducer);
   const dispatch = useDispatch();
 
-  //   const navigate = useNavigate();
+  const updateImage = async () => {
+    setImageLoader(true);
+    if (!image) return toast.error("Please select an image");
+    try {
+      const url = await saveImage(image);
+      axiosWithToken
+        .patch("/updateImage", { url })
+        .then(() => {
+          updateLocalStorage({ profile: url });
+          updateUserDataInContext();
+          dispatch(setProfile(url));
+          clearImageInput();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setImageLoader(false);
+    }
+  };
 
   const handleSave = async () => {
+    setLoader(true);
     try {
       // @ts-ignore
       const response: any = await dispatch(updateUser(editInputValue));
@@ -44,6 +76,8 @@ export default function Profile() {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -67,7 +101,14 @@ export default function Profile() {
         dispatch(setLoading(false));
       });
   }, []);
-
+  function clearImageInput() {
+    if (imageInputRef.current) {
+      imageInputRef.current.files = null;
+      imageInputRef.current.value = "";
+      setImage(null);
+    }
+  }
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
   return userReducer.loading ? (
     <>
       <PiSpinner className='absolute top-[50%] left-[50%] text-2xl animate-spin' />
@@ -86,12 +127,37 @@ export default function Profile() {
               {userReducer?.name}
             </span>
           </div>
-          <div className='flex gap-2 pt-4'>
-            <button className='px-5 py-2 rounded-full bg-black text-white'>
-              edit
+          <div className='flex gap-2 pt-4 items-center'>
+            <button
+              className={`w-7 h-7 flex items-center justify-center border rounded-full  ${
+                image ? "text-white bg-red-500" : "bg-violet-300 text-black/60"
+              }`}
+              onClick={() => {
+                clearImageInput();
+              }}
+            >
+              <IoMdClose />
             </button>
-            <button className='px-5 py-2 rounded-full bg-black/60 text-white'>
-              save
+            <input
+              id='picture'
+              type='file'
+              ref={imageInputRef}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                // @ts-ignore
+                const data = e.target?.files[0];
+                if (data) {
+                  setImage(data);
+                }
+              }}
+              className='flex h-10 w-full max-w-[200px] rounded-full border border-input bg-transparent px-3 py-2 text-sm text-gray-500 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium'
+            ></input>
+            <button
+              className={`px-5 py-2 border rounded-full bg-violet-700  ${
+                image ? "text-white" : "bg-violet-300 text-black/60"
+              }`}
+              onClick={updateImage}
+            >
+              {imageLoader ? <FiLoader className='animate-spin' /> : <BsSave />}
             </button>
           </div>
         </div>
@@ -129,13 +195,17 @@ export default function Profile() {
                   onClick={() => setEdit(false)}
                   className='px-4 py-2 border rounded-full bg-red-500 text-white'
                 >
-                  cancel
+                  <IoMdClose />
                 </button>
                 <button
                   onClick={handleSave}
-                  className='px-5 py-2 border rounded-full bg-violet-700 text-white'
+                  className='w-[60px] flex justify-center items-center py-2 border rounded-full bg-violet-700 text-white'
                 >
-                  save
+                  {loader ? (
+                    <FiLoader className='animate-spin' />
+                  ) : (
+                    <RiUploadCloud2Line />
+                  )}
                 </button>
               </>
             ) : (
@@ -146,9 +216,9 @@ export default function Profile() {
                     setInput({ email, name, contact });
                     setEdit(true);
                   }}
-                  className='px-6 py-2 border rounded-full bg-black text-white'
+                  className='w-[60px] flex justify-center items-center py-2 border rounded-full bg-violet-700 text-white'
                 >
-                  edit
+                  <CiEdit />
                 </button>
               </>
             )}

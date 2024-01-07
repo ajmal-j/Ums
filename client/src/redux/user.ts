@@ -50,6 +50,9 @@ const userSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setProfile: (state, action) => {
+      state.profile = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(updateUser.fulfilled, (state, action) => {
@@ -69,5 +72,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, setError, setLoading } = userSlice.actions;
+export const { setUser, setError, setLoading ,setProfile} = userSlice.actions;
 export default userSlice.reducer;

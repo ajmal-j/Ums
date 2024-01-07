@@ -1,5 +1,5 @@
 import { Toaster } from "react-hot-toast";
-import Authentication from "./pages/auth";
+import Authentication from "./pages/auth/userAuth";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
 import { UserContextProvider } from "./context/userContext";

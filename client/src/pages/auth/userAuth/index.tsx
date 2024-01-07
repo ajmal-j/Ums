@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Login from "../../components/logIn";
-import SignUp from "../../components/signUp";
-import { UserAuth } from "../../context/userContext";
+import Login from "../../../components/logIn";
+import SignUp from "../../../components/signUp";
+import { UserAuth } from "../../../context/userContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Authentication() {

@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 type SetLocalStorage = (userData: object) => void;
 
 export const setToLocalStorage: SetLocalStorage = (userData: object) => {
@@ -55,4 +57,30 @@ export const updateLocalStorage = ({
     };
   }
   setToLocalStorage(data);
+};
+
+export const saveImage = async (image: Blob | null) => {
+  if (!image) return toast.error("Select an image.");
+  const data = new FormData();
+  data.append("file", image);
+  data.append("upload_preset", "dodxauls");
+  data.append("cloud_name", "dho2z1pix");
+  try {
+    if (image === null) {
+      return toast.error("Please Upload image");
+    }
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dho2z1pix/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const cloudData = await res.json();
+    toast.success("Image Upload Successfully");
+    let url = await cloudData.url;
+    return url;
+  } catch (error) {
+    console.log(error);
+  }
 };

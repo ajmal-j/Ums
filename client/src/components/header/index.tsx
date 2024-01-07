@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { UserAuth } from "../../context/userContext";
@@ -34,7 +35,7 @@ export default function Header() {
     navigate("profile");
   };
   return (
-    <div className='h-[100px] bg-white/70 flex justify-between items-center px-14'>
+    <div className='h-[70px] bg-white/70 flex justify-between items-center px-14'>
       <Link to={"/home"}>
         <span className='text-xl'>User Management System :</span>
       </Link>
@@ -49,18 +50,24 @@ export default function Header() {
         />
         {profile && (
           <div className='absolute top-full bottom-[-50px] left-auto right-5'>
-            <div className='flex flex-col gap-3 bg-violet-400 rounded-2xl border border-black/10 px-5 py-8'>
+            <div className='flex flex-col gap-5 bg-violet-600 rounded-xl border border-black/10 px-5 py-8'>
               <button
-                className='rounded-full bg-violet-600 px-3 py-1 text-white/90 shadow-shadowFull flex items-center gap-2 border border-white/60'
+                className='absolute top-3 right-3 bg-violet-800 p-1 rounded-full shadow-shadowFull '
+                onClick={() => setProfile(false)}
+              >
+                <IoMdClose className='text-red-500' />
+              </button>
+              <button
+                className='rounded-full bg-violet-600 px-3 mt-6 py-1 text-white/90 shadow-shadowFull flex items-center gap-2 border border-white/60'
                 onClick={navigateToProfile}
               >
                 <LuUser2 /> Profile
               </button>
               <button
-                className='rounded-full bg-violet-600 px-3 py-1  shadow-shadowFull flex items-center gap-2 text-red-600  font-bold border border-white/60'
+                className='rounded-full bg-violet-600 px-3 py-1  shadow-shadowFull flex items-center gap-2 text-white/90  border border-white/60'
                 onClick={handleLogOut}
               >
-                <RiLogoutCircleLine /> Logout
+                <RiLogoutCircleLine className='text-red-500 font-bold' /> Logout
               </button>
             </div>
           </div>

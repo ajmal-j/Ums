@@ -28,7 +28,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
     .select("-password -createdAt -updatedAt")
     .exec();
   if (!user) throw new Error("User not fount");
-  
+
   res.status(200).json({
     user: {
       name: user.name,
@@ -38,4 +38,12 @@ const updateUser = expressAsyncHandler(async (req, res) => {
   });
 });
 
-export { home, getData, updateUser };
+const updateImage = expressAsyncHandler(async (req, res) => {
+  const { url } = req.body;
+  if (!url) throw new Error("Url not found");
+  const { _id } = res.locals.user;
+  await User.findByIdAndUpdate(_id, { $set: { profile: url } });
+  res.status(200).json("Updated");
+});
+
+export { home, getData, updateUser, updateImage };
