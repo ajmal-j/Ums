@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
-import { getLocalStorage } from "../../utils/helper";
-import { UserDataType } from "../../types/types";
 import { LuUser2 } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { UserAuth } from "../../context/userContext";
+import { getLocalStorage } from "../../utils/helper";
 
 export default function Header() {
-  const [userData, setUserData] = useState<UserDataType | undefined>(undefined);
   const [profile, setProfile] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { setUser } = UserAuth();
+  const { user, setUser, updateUserDataInContext } = UserAuth();
   useEffect(() => {
     try {
-      let data = getLocalStorage();
-      if (data) {
-        setUserData(data);
-      }
+      getLocalStorage();
+      updateUserDataInContext();
     } catch (error) {
       console.log(error);
       navigate("/");
@@ -43,12 +39,12 @@ export default function Header() {
         <span className='text-xl'>User Management System :</span>
       </Link>
       <div className='flex items-center  relative'>
-        <span className='capitalize pe-3'>{userData?.name}</span>
+        <span className='capitalize pe-3'>{user?.name}</span>
         <img
-          src={userData?.profile}
+          src={user?.profile}
           alt=''
           className='w-[40px] cursor-pointer rounded-full flex-shrink-0
-         h-[40px] border border-black/20 shadow-shadowFullBlack'
+         h-[40px] border border-black/20 shadow-shadowFullBlack object-cover'
           onClick={() => setProfile(!profile)}
         />
         {profile && (

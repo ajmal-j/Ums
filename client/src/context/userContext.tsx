@@ -1,9 +1,11 @@
 import { ReactNode, createContext, useContext, useState } from "react";
 import { UserDataType, reactSetStateType } from "../types/types";
+import { getLocalStorage } from "../utils/helper";
 
 type UserContextType = {
-  user: object | null | UserDataType;
+  user:  null | UserDataType;
   setUser: reactSetStateType<object | null>;
+  updateUserDataInContext: () => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -15,8 +17,12 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     const userInfo: object = JSON.parse(data);
     return userInfo;
   });
+  const updateUserDataInContext = () => {
+    const data = getLocalStorage();
+    setUser(data);
+  };
   return (
-    <UserContext.Provider value={{ setUser, user }}>
+    <UserContext.Provider value={{ setUser, user, updateUserDataInContext }}>
       {children}
     </UserContext.Provider>
   );

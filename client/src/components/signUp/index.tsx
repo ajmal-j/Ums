@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LogInType } from "../logIn";
 import { SignUpTypeSchema } from "../../utils/validationSchema";
 import { authApi } from "../../utils/axios";
@@ -18,6 +18,8 @@ type SignUp = {
 
 const SignUp = ({ setLogIn }: SignUp) => {
   const [show, setShow] = useState<boolean>(false);
+  const [image, setImage] = useState<any>("");
+  const [url, setUrl] = useState<string>("");
   const [showConfirmPass, setShowOnConfirmPass] = useState<boolean>(false);
 
   const [state, setState] = useState<SignUpType>({
@@ -40,8 +42,35 @@ const SignUp = ({ setLogIn }: SignUp) => {
       })
     );
   };
+
+  const saveImage = async () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "dodxauls");
+    data.append("cloud_name", "dho2z1pix");
+    try {
+      if (image === null) {
+        return toast.error("Please Upload image");
+      }
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dho2z1pix/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const cloudData = await res.json();
+      setUrl(cloudData.url);
+      toast.success("Image Upload Successfully");
+      let url = await cloudData.url;
+      return url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // submit from,
-  const handleSignUp = (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     const { confirmPassword, ...data }: SignUpType = state;
     try {
@@ -50,8 +79,13 @@ const SignUp = ({ setLogIn }: SignUp) => {
       }
       // from validation
       SignUpTypeSchema.parse(state);
+
+      let imageUrl;
+      if (!url) {
+        imageUrl = await saveImage();
+      }
       authApi
-        .post("/signUp", data)
+        .post("/signUp", { ...data, profile: imageUrl || url })
         .then((response) => {
           const { status } = response;
           if (status === 200 || status === 201) {
@@ -76,6 +110,9 @@ const SignUp = ({ setLogIn }: SignUp) => {
       handleError(error);
     }
   };
+  useEffect(() => {
+    setUrl("");
+  }, [image]);
   return (
     <section>
       <div>
@@ -138,6 +175,13 @@ const SignUp = ({ setLogIn }: SignUp) => {
                     <input
                       id='picture'
                       type='file'
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        // @ts-ignore
+                        const data = e.target?.files[0];
+                        if (data) {
+                          setImage(data);
+                        }
+                      }}
                       className='flex mt-2 h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-gray-500 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium'
                     ></input>
                     <span className='text-red-600 text-sm'>&nbsp;</span>

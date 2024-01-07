@@ -29,7 +29,7 @@ const logIn = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const signUp = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password, name, contact } = req.body;
+  const { email, password, name, contact, profile } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     throw new Error("User already exist.");
@@ -40,6 +40,9 @@ const signUp = asyncHandler(async (req: Request, res: Response) => {
     name,
     contact,
     password: encryptedPassword,
+    profile: profile
+      ? profile
+      : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
   };
 
   await User.create(data)

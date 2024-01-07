@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UserDataType } from "../types/types";
 import { axiosWithToken } from "../utils/axios";
 import toast from "react-hot-toast";
+import { updateLocalStorage } from "../utils/helper";
 
 export type UserReduxType = {
   loading: boolean;
@@ -58,6 +59,7 @@ const userSlice = createSlice({
       state.email = email;
       state.name = name;
       state.contact = contact;
+      updateLocalStorage({ email, name, contact });
       toast.success("Updated");
     });
     builder.addCase(updateUser.rejected, (state, action) => {

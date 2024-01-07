@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { PiSpinner } from "react-icons/pi";
 import { UserDataType } from "../../types/types";
@@ -12,6 +12,7 @@ import {
   updateUser,
 } from "../../redux/user";
 import { axiosWithToken } from "../../utils/axios";
+import { UserAuth } from "../../context/userContext";
 
 export default function Profile() {
   const [edit, setEdit] = useState<boolean>(false);
@@ -20,6 +21,8 @@ export default function Profile() {
     email: "",
     contact: 0,
   });
+  const { updateUserDataInContext } = UserAuth();
+
   // @ts-ignore
   const userReducer = useSelector((state) => state?.userReducer);
   const dispatch = useDispatch();
@@ -31,6 +34,7 @@ export default function Profile() {
       // @ts-ignore
       const response: any = await dispatch(updateUser(editInputValue));
       if (response.meta.requestStatus === "fulfilled") {
+        updateUserDataInContext();
         setEdit(false);
         setInput({
           email: "",
@@ -76,7 +80,7 @@ export default function Profile() {
             <img
               src={userReducer?.profile}
               alt=''
-              className='max-w-[150px] rounded-full'
+              className='w-[150px] h-[150px] object-cover rounded-full'
             />
             <span className='block text-center pt-2 capitalize'>
               {userReducer?.name}

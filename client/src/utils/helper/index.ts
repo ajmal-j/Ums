@@ -13,6 +13,13 @@ type userCredentialsType = () => {
   email: string;
 };
 
+type UserUpdateType = {
+  name?: string;
+  email?: string;
+  contact?: string;
+  profile?: string;
+};
+
 export const getLocalStorage: userCredentialsType = (): {
   token: string;
   name: string;
@@ -24,4 +31,28 @@ export const getLocalStorage: userCredentialsType = (): {
   if (!userData) throw new Error("UserData not found");
   const data = JSON.parse(userData);
   return data;
+};
+
+export const updateLocalStorage = ({
+  email,
+  contact,
+  name,
+  profile,
+}: UserUpdateType) => {
+  const current = getLocalStorage();
+  let data = {};
+  if (email && name && contact) {
+    data = {
+      ...current,
+      email,
+      name,
+      contact,
+    };
+  } else if (profile) {
+    data = {
+      ...current,
+      profile,
+    };
+  }
+  setToLocalStorage(data);
 };
