@@ -1,5 +1,6 @@
 import axios from "axios";
 import { server } from "../../server";
+import { getLocalStorage } from "../helper";
 
 export const authApi = axios.create({
   baseURL: server + "/auth",
@@ -11,9 +12,7 @@ export const axiosWithToken = axios.create({
 
 axiosWithToken.interceptors.request.use(
   (config) => {
-    const userData = localStorage.getItem("userCredentials");
-    if (!userData) throw new Error("UserData not found");
-    const data = JSON.parse(userData);
+    const data = getLocalStorage();
     config.headers["authorization"] = data.token;
     return config;
   },

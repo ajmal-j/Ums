@@ -5,7 +5,7 @@ import { hashPassword, matchPassword } from "../utils/bcrypt";
 import { generateToken } from "../utils/jwt";
 
 const logIn = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, contact } = req.body;
 
   const user: UserType | null = await User.findOne({ email });
   if (!user) {
@@ -21,6 +21,7 @@ const logIn = asyncHandler(async (req: Request, res: Response) => {
     email: user.email,
     name: user.name,
     profile: user.profile,
+    contact: user.contact,
     id: user._id,
     token,
   };
@@ -28,7 +29,7 @@ const logIn = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const signUp = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, contact } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     throw new Error("User already exist.");
@@ -37,6 +38,7 @@ const signUp = asyncHandler(async (req: Request, res: Response) => {
   const data: UserType = {
     email,
     name,
+    contact,
     password: encryptedPassword,
   };
 

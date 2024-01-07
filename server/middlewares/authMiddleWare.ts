@@ -12,7 +12,8 @@ export const protectJwt = expressAsyncHandler(async (req, res, next) => {
       if (!secret) throw new Error("JWT secret is missing!!");
       const decode = jwt.verify(authorization, secret);
       // @ts-ignore
-      req.user = await User.findOne({ _id: secret?.id });
+      const user = await User.findOne({ _id: decode?.id }).select("-password");
+      res.locals.user = user;
       next();
     } catch (error) {
       console.log(error);

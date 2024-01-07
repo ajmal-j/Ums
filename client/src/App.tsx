@@ -11,7 +11,7 @@ function App() {
         <UserContextProvider>
           <Routes>
             <Route path='/' element={<Authentication />} />
-            <Route path='/home' element={<Home />} />
+            <Route path='/home/*' element={<Home />} />
           </Routes>
         </UserContextProvider>
       </BrowserRouter>

@@ -9,19 +9,50 @@ export const SignUpTypeSchema = z.object({
     .max(15, { message: "Name must be less than 15 characters" })
     .refine((data) => !/\d/.test(data), {
       message: "Name must not contain a number",
+    })
+    .refine((data) => data.trim() === data, {
+      message: "Trailing spaces are not allowed.",
     }),
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .refine((data) => data.trim() === data, {
+      message: "Trailing spaces are not allowed.",
+    }),
   password: z
     .string()
-    .min(6, { message: "Password must contain at least 6 characters" }),
+    .min(6, { message: "Password must contain at least 6 characters" })
+    .refine((data) => data.trim() === data, {
+      message: "Trailing spaces are not allowed.",
+    }),
   confirmPassword: z
     .string()
-    .min(6, { message: "Password must contain at least 6 characters" }),
+    .min(6, { message: "Password must contain at least 6 characters" })
+    .refine((data) => data.trim() === data, {
+      message: "Trailing spaces are not allowed.",
+    }),
+  contact: z
+    .string()
+    .min(6, { message: "Enter a valid contact number" })
+    .refine((data) => data.trim() === data, {
+      message: "Trailing spaces are not allowed.",
+    })
+    .refine((data) => parseInt(data, 10) > 100000, {
+      message: "Enter a valid contact",
+    }),
 });
 
 export const SignInTypeSchema = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .refine((data) => data.trim() === data, {
+      message: "Trailing spaces are not allowed.",
+    }),
   password: z
     .string()
-    .min(6, { message: "Password must contain at least 6 characters" }),
+    .min(6, { message: "Password must contain at least 6 characters" })
+    .refine((data) => data.trim() === data, {
+      message: "Trailing spaces are not allowed.",
+    }),
 });

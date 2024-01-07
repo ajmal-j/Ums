@@ -1,16 +1,28 @@
-import { useEffect } from "react";
-import { axiosWithToken } from "../../utils/axios";
+import Header from "../../components/header";
+import { Route, Routes } from "react-router-dom";
+import Profile from "../../components/profile";
 
 export default function Home() {
-  useEffect(() => {
-    axiosWithToken
-      .get("/")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  return <div className='text-black'>Home</div>;
+  return (
+    <div className='bg-violet-200 w-full min-h-screen'>
+      <Header />
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <div>
+              <iframe
+                title='Embedded Site'
+                width='100%'
+                height='845'
+                src='https://myweather-app67.netlify.app/'
+                allowFullScreen
+              />
+            </div>
+          }
+        />
+        <Route path='/profile' element={<Profile />} />
+      </Routes>
+    </div>
+  );
 }

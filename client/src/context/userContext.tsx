@@ -1,8 +1,8 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { reactSetStateType } from "../types/types";
+import { UserDataType, reactSetStateType } from "../types/types";
 
 type UserContextType = {
-  user: object | null;
+  user: object | null | UserDataType;
   setUser: reactSetStateType<object | null>;
 };
 

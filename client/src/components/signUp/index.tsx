@@ -8,6 +8,7 @@ import { handleError } from "../../utils/errorHandler";
 
 type SignUpType = {
   confirmPassword: string;
+  contact: string;
   name: string;
 } & LogInType;
 
@@ -24,6 +25,7 @@ const SignUp = ({ setLogIn }: SignUp) => {
     email: "",
     password: "",
     confirmPassword: "",
+    contact: "",
   });
   const onKeyDown = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name, nextSibling } = e.target;
@@ -58,6 +60,7 @@ const SignUp = ({ setLogIn }: SignUp) => {
               email: "",
               name: "",
               password: "",
+              contact: "",
             });
             toast.success("Signed up.");
             setLogIn(true);
@@ -99,6 +102,28 @@ const SignUp = ({ setLogIn }: SignUp) => {
                       onChange={onKeyDown}
                       placeholder='Full Name'
                       id='name'
+                    ></input>
+                    <span className='text-red-600 text-sm block mb-2'>
+                      &nbsp;
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor='contact'
+                    className='text-base font-medium text-gray-900'
+                  >
+                    Contact
+                  </label>
+                  <div className='mt-2'>
+                    <input
+                      className='flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50'
+                      type='number'
+                      name='contact'
+                      value={state.contact}
+                      onChange={onKeyDown}
+                      placeholder='Contact number'
+                      id='contact'
                     ></input>
                     <span className='text-red-600 text-sm block mb-2'>
                       &nbsp;

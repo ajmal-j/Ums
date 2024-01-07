@@ -1,11 +1,12 @@
 import mongoose, { ObjectId, Schema } from "mongoose";
 
-export interface UserType  {
-  _id?:ObjectId;
+export interface UserType {
+  _id?: ObjectId;
   name: string;
   email: string;
   password: string;
   profile?: string;
+  contact: number;
 }
 
 const userSchema: Schema = new mongoose.Schema(
@@ -22,6 +23,9 @@ const userSchema: Schema = new mongoose.Schema(
     password: {
       type: String,
       require: true,
+    },
+    contact: {
+      type: Number,
     },
     profile: {
       type: String,
