@@ -6,6 +6,10 @@ export const authApi = axios.create({
   baseURL: server + "/auth",
 });
 
+export const adminAuthApi = axios.create({
+  baseURL: server + "/adminAuth",
+});
+
 export const axiosWithToken = axios.create({
   baseURL: server + "/user",
 });

@@ -3,6 +3,9 @@ import asyncHandler from "express-async-handler";
 import { User, UserType } from "../model/UserModel";
 import { hashPassword, matchPassword } from "../utils/bcrypt";
 import { generateToken } from "../utils/jwt";
+import expressAsyncHandler from "express-async-handler";
+import { Admin } from "../model/AdminModel";
+import { baseProfileUrl } from "../utils/helper";
 
 const logIn = asyncHandler(async (req: Request, res: Response) => {
   const { email, password, contact } = req.body;
@@ -40,9 +43,7 @@ const signUp = asyncHandler(async (req: Request, res: Response) => {
     name,
     contact,
     password: encryptedPassword,
-    profile: profile
-      ? profile
-      : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    profile: profile ? profile : baseProfileUrl,
   };
 
   await User.create(data)
@@ -55,4 +56,20 @@ const signUp = asyncHandler(async (req: Request, res: Response) => {
     });
 });
 
-export { logIn, signUp };
+const adminLogIn = expressAsyncHandler(async (req, res) => {
+  const { email, password } = req.body.data;
+  const user = await Admin.findOne({ email });
+  if (!user) throw new Error("Invalid Credentials.");
+  const comparePass = await matchPassword(password, user.password);
+  if (!comparePass) throw new Error("Password not matches.");
+  const data = {
+    id: user._id,
+    email: user.email,
+    name: user.name,
+    profile: user.profile,
+    token: generateToken(user._id),
+  };
+  res.status(200).json({ adminData: data });
+});
+
+export { logIn, signUp, adminLogIn };

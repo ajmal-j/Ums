@@ -7,11 +7,13 @@ import { connect } from "./config/db";
 const app: Express = express();
 app.use(express.json());
 import cors from "cors";
+import adminAuth from "./router/adminAuth";
 const port = 3000;
 app.use(cors());
 connect();
 
 app.use("/auth", authRouter);
+app.use("/adminAuth", adminAuth);
 app.use("/user", userRoute);
 
 // not found handler

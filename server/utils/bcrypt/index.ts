@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 
 type HashPasswordType = (password: string) => Promise<string>;
+
 type MatchPasswordType = (
   password: string,
   hashedPassword: string

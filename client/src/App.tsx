@@ -3,6 +3,7 @@ import Authentication from "./pages/auth/userAuth";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/home";
 import { UserContextProvider } from "./context/userContext";
+import AdminAuth from "./pages/auth/adminAuth";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <UserContextProvider>
           <Routes>
             <Route path='/' element={<Authentication />} />
+            <Route path='/admin/*' element={<AdminAuth />} />
             <Route path='/home/*' element={<Home />} />
           </Routes>
         </UserContextProvider>

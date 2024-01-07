@@ -15,7 +15,7 @@ export default function Authentication() {
   }, []);
 
   return (
-    <div className='w-full h-screen bg-black bg-[url(/bg.svg)] bg-center bg-cover bg-no-repeat'>
+    <div className='w-full h-screen bg-[url(/bg.svg)] bg-center bg-cover bg-no-repeat'>
       <div className='flex justify-around p-5 pt-10'>
         <button
           className={`px-3 py-2 ${

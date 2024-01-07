@@ -7,6 +7,11 @@ export const setToLocalStorage: SetLocalStorage = (userData: object) => {
   localStorage.setItem("userCredentials", data);
 };
 
+export const setAdminToLocalStorage: SetLocalStorage = (adminData: object) => {
+  const data = JSON.stringify(adminData);
+  localStorage.setItem("adminCredentials", data);
+};
+
 type userCredentialsType = () => {
   token: string;
   name: string;
