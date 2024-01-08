@@ -20,7 +20,6 @@ const adminSlice = createSlice({
   initialState,
   reducers: {
     setAdmin: (state, action) => {
-      console.log("updated state");
       const { name, email, profile } = action.payload;
       state.email = email;
       state.name = name;

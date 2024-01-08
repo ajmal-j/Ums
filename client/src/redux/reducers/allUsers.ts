@@ -1,18 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AllUserType } from "../../types/types";
+
+export type AllUserReduxType = { users: AllUserType };
+
+const initialState: AllUserReduxType = {
+  users: [],
+};
 
 const userSlice = createSlice({
   name: "AllUsers",
-  initialState: {
-    users: [],
-  },
+  initialState,
   reducers: {
-    getAllUsers: (state, action) => {
+    setAllUsers: (state, action) => {
       const data = action.payload;
-      console.log(data);
       state.users = data;
     },
   },
 });
 
-export const { getAllUsers } = userSlice.actions;
+export const { setAllUsers } = userSlice.actions;
 export default userSlice.reducer;
