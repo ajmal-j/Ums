@@ -27,7 +27,7 @@ export default function List({
       key={id}
       className=' bg-white items-center w-full justify-around rounded-xl px-3 py-2 flex gap-4 max-w-[1000px] mx-auto hover:bg-opacity-60'
     >
-      <div className='bg-gray-300 w-[70px] flex-shrink-0 flex-grow-0 h-[70px] rounded-full'>
+      <div className='bg-gray-300 ms-0 lg:ms-7 w-[70px] flex-shrink-0 flex-grow-0 h-[70px] rounded-full'>
         <img
           src={profile}
           className='rounded-full w-full h-full object-cover'
@@ -36,8 +36,8 @@ export default function List({
       </div>
 
       <div className='flex  gap-4 flex-col md:flex-row justify-between w-full'>
-        <div className='flex flex-col gap-2 justify-between'>
-          <div className='flex flex-col'>
+        <div className='flex flex-col ms-0 lg:ms-20 gap-2 justify-between'>
+          <div className='flex flex-col '>
             <label className='font-bold text-sm text-black/50'>name :</label>
             <span className='capitalize ps-1'>{name}</span>
           </div>

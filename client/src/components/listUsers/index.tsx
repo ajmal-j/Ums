@@ -124,9 +124,15 @@ export default function ListUsers() {
         .patch("/updateImage", { data: { url, id } })
         .then(() => {
           dispatch(setUserProfile({ url, id }));
+          setUser((prev) => {
+            if (prev) {
+              return {
+                ...prev,
+                profile: url,
+              };
+            }
+          });
           clearImageInput();
-          setEdit(false);
-          toast.success("Updated");
         })
         .catch((error) => {
           console.log(error);
@@ -168,7 +174,10 @@ export default function ListUsers() {
         </span>
         <span>Total : {users?.length}</span>
       </div>
-      <form onSubmit={handleSearch} className='flex my-3 gap-3'>
+      <form
+        onSubmit={handleSearch}
+        className='flex mb-8 gap-3 max-w-[1000px] mx-auto'
+      >
         <input
           ref={searchInputRef}
           type='text'
@@ -177,7 +186,7 @@ export default function ListUsers() {
         />
         <div className='flex shadow-shadowFull rounded-full'>
           <button
-            className='w-[65px] text-center bg-white text-black/60 rounded-l-full border border-r-0 border-white/80 hover:bg-opacity-70 hover:font-bold hover:text-red-500 transition-colors duration-200 '
+            className='w-[65px] text-center bg-white text-red-500 rounded-l-full border border-r-black/10 border-white/80 hover:bg-opacity-70 hover:font-bold hover:text-red-500 transition-colors duration-200 '
             onClick={() => {
               if (searchInputRef?.current) {
                 searchInputRef.current.value = "";
@@ -187,7 +196,7 @@ export default function ListUsers() {
           >
             clear
           </button>
-          <button className='w-[65px] bg-white border-l-0 text-black/60 rounded-r-full border border-white/80 hover:bg-opacity-70 hover:text-violet-800 hover:font-bold transition-colors duration-200 '>
+          <button className='w-[65px] bg-white border-l-0 text-violet-800 rounded-r-full border border-white/80 hover:bg-opacity-70 hover:text-violet-800 hover:font-bold transition-colors duration-200 '>
             search
           </button>
         </div>
@@ -215,7 +224,7 @@ export default function ListUsers() {
       <div></div>
       {edit && (
         <div className='absolute text-black z-10 top-0 bottom-auto left-0 right-0 flex justify-center items-center h-full  bg-white/50'>
-          <div className='bg-white my-auto p-7 rounded-2xl shadow-shadowFull border'>
+          <div className='bg-white my-auto p-7 rounded-2xl shadow-shadowFull border animate-fadeInUp'>
             <div className='flex justify-end'>
               <button
                 onClick={() => {
