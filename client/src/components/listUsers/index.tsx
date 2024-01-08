@@ -22,6 +22,7 @@ import { saveImage } from "../../utils/helper";
 export default function ListUsers() {
   const [users, setUsers] = useState<AllUserType>([]);
   const [edit, setEdit] = useState<boolean>(false);
+  const [view, setView] = useState<boolean>(false);
   const [imageLoader, setImageLoader] = useState<boolean>(false);
   const [user, setUser] = useState<UserDataType>();
   const [image, setImage] = useState<Blob | null>(null);
@@ -208,6 +209,7 @@ export default function ListUsers() {
             createdAt={createdAt}
             email={email}
             name={name}
+            setView={setView}
             profile={profile}
             id={_id}
             key={_id}
@@ -224,13 +226,23 @@ export default function ListUsers() {
       <div></div>
       {edit && (
         <div className='absolute text-black z-10 top-0 bottom-auto left-0 right-0 flex justify-center items-center h-full  bg-white/50'>
-          <div className='bg-white my-auto p-7 rounded-2xl shadow-shadowFull border animate-fadeInUp'>
+          <div
+            className='bg-white my-auto p-7 rounded-2xl shadow-shadowFull border animate-fadeInUp'
+            id='mainDiv'
+          >
             <div className='flex justify-end'>
               <button
                 onClick={() => {
-                  setEdit(false);
+                  const element = document.getElementById("mainDiv");
+                  if (element?.classList) {
+                    element.classList.add("animate-fadeDown");
+                  }
+                  setView(false);
+                  setTimeout(() => {
+                    setEdit(false);
+                  }, 200);
                 }}
-                className='bg-violet-300 text-black/60 shadow-shadowFull px-3 py-2 border rounded-full '
+                className='bg-violet-300 text-black/60 shadow-shadowFull px-3 py-2 border rounded-full hover:bg-violet-600 duration-200 hover:text-white hover:shadow-shadowFullBlack transition-colors'
               >
                 close
               </button>
@@ -292,28 +304,43 @@ export default function ListUsers() {
             </div>
             <EditInput
               title='name'
+              data={user?.name}
               setInput={setInput}
               editInput={editInputValue?.name}
-              edit={true}
+              edit={view}
             />
             <EditInput
               title='email'
+              data={user?.email}
               setInput={setInput}
               editInput={editInputValue?.email}
-              edit={true}
+              edit={view}
             />
             <EditInput
               title='contact'
+              data={user?.contact}
               setInput={setInput}
               editInput={editInputValue?.contact}
-              edit={true}
+              edit={view}
             />
-            <button
-              className='w-full bg-violet-500 py-2 mt-4 text-white hover:text-black hover:bg-violet-300 transition-all duration-200 rounded-full'
-              onClick={handleSaveEdit}
-            >
-              save
-            </button>
+            {view ? (
+              <button
+                className='w-full bg-violet-500 py-2 mt-4 text-white hover:text-black hover:bg-violet-300 transition-all duration-200 rounded-full'
+                onClick={handleSaveEdit}
+              >
+                save
+              </button>
+            ) : (
+              <button
+                className='w-full bg-violet-400 py-2 mt-4 text-red-600 hover:text-black hover:bg-violet-300 transition-all duration-200 rounded-full'
+                onClick={() => {
+                  setView(true);
+                  setEdit(true);
+                }}
+              >
+                edit
+              </button>
+            )}
           </div>
         </div>
       )}

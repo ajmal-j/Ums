@@ -20,6 +20,8 @@ import { axiosWithToken } from "../../utils/axios";
 import { UserAuth } from "../../context/userContext";
 import { saveImage, updateLocalStorage } from "../../utils/helper";
 import toast from "react-hot-toast";
+import { EditInputValidation } from "../../utils/validationSchema";
+import { handleError } from "../../utils/errorHandler";
 
 export default function Profile() {
   const [edit, setEdit] = useState<boolean>(false);
@@ -72,6 +74,8 @@ export default function Profile() {
   const handleSave = async () => {
     setLoader(true);
     try {
+      const { contact, email, name } = editInputValue;
+      EditInputValidation.parse({ name, email, contact: contact.toString() });
       // @ts-ignore
       const response: any = await dispatch(updateUser(editInputValue));
       if (response.meta.requestStatus === "fulfilled") {
@@ -84,7 +88,7 @@ export default function Profile() {
         });
       }
     } catch (error) {
-      console.log(error);
+      handleError(error);
     } finally {
       setLoader(false);
     }
@@ -170,7 +174,7 @@ export default function Profile() {
           </div>
         </div>
         <div className='flex-1 max-w-[600px] w-full bg-white p-4 rounded-xl'>
-          <div className='flex flex-col justify-start rounded-2xl gap-5'>
+          <div className='flex flex-col justify-start rounded-2xl'>
             <EditInput
               editInput={editInputValue.name}
               setInput={setInput}

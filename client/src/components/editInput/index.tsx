@@ -2,7 +2,7 @@ import { UserDataType, reactSetStateType } from "../../types/types";
 
 type EditInputType = {
   title: string;
-  data?: string | number | undefined;
+  data: string | number | undefined;
   edit: boolean;
   setInput: reactSetStateType<Omit<UserDataType, "_id" | "id" | "profile">>;
   editInput: string | undefined | number;
@@ -38,10 +38,10 @@ export default function EditInput({
         onChange={handleChange}
         value={editInput}
       ></input>
-      <span className='text-sm text-red-600'>&nbsp;</span>
+      <span className='text-sm text-red-600 ps-3'>&nbsp;</span>
     </div>
   ) : (
-    <div className='flex flex-col'>
+    <div className='flex flex-col mb-5'>
       <span className='text-sm text-black/50 pb-2'>{title}</span>
       <span className='h-[40px] py-2 px-3 border border-transparent'>
         {data}

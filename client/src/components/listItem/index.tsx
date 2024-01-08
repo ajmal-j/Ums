@@ -7,6 +7,7 @@ type List = {
   contact: number | string;
   createdAt: any;
   profile: string;
+  setView: reactSetStateType<boolean>;
   id: string | undefined;
   handleDeleteUser: (id: string | undefined) => void;
   setEdit: (id: string) => void;
@@ -19,12 +20,18 @@ export default function List({
   name,
   id,
   profile,
+  setView,
   handleDeleteUser,
   setEdit,
 }: List) {
   return (
     <div
       key={id}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (id) setEdit(id);
+        setView(false);
+      }}
       className=' bg-white items-center w-full justify-around rounded-xl px-3 py-2 flex gap-4 max-w-[1000px] mx-auto hover:bg-opacity-60'
     >
       <div className='bg-gray-300 ms-0 lg:ms-7 w-[70px] flex-shrink-0 flex-grow-0 h-[70px] rounded-full'>
@@ -59,15 +66,20 @@ export default function List({
       </div>
       <div className='flex flex-col px-3 justify-around gap-2'>
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             if (id) setEdit(id);
+            setView(true);
           }}
           className='px-2 py-1 bg-violet-600 text-white rounded-full  shadow-shadowFull border border-white/80 hover:bg-opacity-70 hover:text-black/50 transition-all duration-200'
         >
           edit
         </button>
         <button
-          onClick={() => handleDeleteUser(id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeleteUser(id);
+          }}
           className='px-2 py-1 bg-red-600 text-white rounded-full  shadow-shadowFull border border-white/80 hover:bg-opacity-70 hover:text-black/50 transition-all duration-200'
         >
           delete
