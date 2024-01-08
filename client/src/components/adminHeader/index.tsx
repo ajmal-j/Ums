@@ -42,7 +42,7 @@ export default function AdminHeader() {
       });
   }, []);
   return (
-    <div className='h-[70px] bg-white/70 flex justify-between items-center px-14'>
+    <div className='h-[70px] bg-violet-200 flex justify-between items-center px-14'>
       <Link to={"/home"}>
         <span className='text-xl'>User Management System :</span>
       </Link>
@@ -56,7 +56,7 @@ export default function AdminHeader() {
           onClick={() => setProfile(!profile)}
         />
         {profile && (
-          <div className='absolute top-full bottom-[-50px] left-auto right-5'>
+          <div className='absolute top-full bottom-[-50px] left-auto right-5 z-20'>
             <div className='flex flex-col gap-5 bg-violet-600 rounded-xl border border-black/10 px-5 py-8'>
               <button
                 className='absolute top-3 right-3 bg-violet-800 p-1 rounded-full shadow-shadowFull '

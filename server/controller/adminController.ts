@@ -15,4 +15,18 @@ const allUser = expressAsyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
-export { getAdminData, allUser };
+const editUser = expressAsyncHandler(async (req, res) => {
+  const { email, contact, name, _id } = req.body.data;
+  const exist = await User.findOne({ email, _id: { $ne: _id } });
+  if (exist) throw new Error("Email already in use");
+  await User.findByIdAndUpdate(_id, { email, contact, name });
+  res.status(200).end();
+});
+
+const deleteUser = expressAsyncHandler(async (req, res) => {
+  const id = req.body.data;
+  console.log(id);
+  res.status(200).end();
+});
+
+export { getAdminData, allUser, editUser ,deleteUser};

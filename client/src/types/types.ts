@@ -5,6 +5,7 @@ export type UserDataType = {
   createdAt?:any;
   name: string;
   id: string;
+  _id?:string;
   profile: string;
   contact: number;
   email: string;

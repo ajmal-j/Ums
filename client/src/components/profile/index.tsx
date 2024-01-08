@@ -26,7 +26,9 @@ export default function Profile() {
   const [loader, setLoader] = useState<boolean>(false);
   const [imageLoader, setImageLoader] = useState<boolean>(false);
   const [image, setImage] = useState<Blob | null>(null);
-  const [editInputValue, setInput] = useState<UserDataType>({
+  const [editInputValue, setInput] = useState<
+    Omit<UserDataType, "_id" | "id" | "profile">
+  >({
     name: "",
     email: "",
     contact: 0,

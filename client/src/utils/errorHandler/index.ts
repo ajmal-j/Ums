@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { ZodError } from "zod";
 
 export const handleError = (error: any) => {
@@ -9,8 +10,10 @@ export const handleError = (error: any) => {
         if (errSpan) errSpan.innerText = err.message;
       }
     });
+  } else if (error.response.data.message) {
+    toast.error(error.response.data.message);
   } else {
-    // @ts-ignore
+    console.log(error);
     toast.error(error.message);
   }
 };

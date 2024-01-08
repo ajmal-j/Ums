@@ -39,6 +39,9 @@ export const SignUpTypeSchema = z.object({
     })
     .refine((data) => parseInt(data, 10) > 100000, {
       message: "Enter a valid contact",
+    })
+    .refine((data) => /^\d+$/.test(data), {
+      message: "Enter a valid contact with only numbers",
     }),
 });
 
@@ -55,4 +58,10 @@ export const SignInTypeSchema = z.object({
     .refine((data) => data.trim() === data, {
       message: "Trailing spaces are not allowed.",
     }),
+});
+
+export const EditInputValidation = z.object({
+  name: SignUpTypeSchema.shape.name,
+  email: SignUpTypeSchema.shape.email,
+  contact: SignUpTypeSchema.shape.contact,
 });
