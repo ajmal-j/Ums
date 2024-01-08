@@ -1,6 +1,6 @@
 import axios from "axios";
 import { server } from "../../server";
-import { getLocalStorage } from "../helper";
+import { getAdminLocalStorage, getLocalStorage } from "../helper";
 
 export const authApi = axios.create({
   baseURL: server + "/auth",
@@ -17,6 +17,21 @@ export const axiosWithToken = axios.create({
 axiosWithToken.interceptors.request.use(
   (config) => {
     const data = getLocalStorage();
+    config.headers["authorization"] = data.token;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export const axiosWithAdminToken = axios.create({
+  baseURL: server + "/admin",
+});
+
+axiosWithAdminToken.interceptors.request.use(
+  (config) => {
+    const data = getAdminLocalStorage();
     config.headers["authorization"] = data.token;
     return config;
   },

@@ -8,13 +8,15 @@ const app: Express = express();
 app.use(express.json());
 import cors from "cors";
 import adminAuth from "./router/adminAuth";
+import adminRouter from "./router/adminRouter";
 const port = 3000;
 app.use(cors());
 connect();
 
+app.use("/user", userRoute);
+app.use("/admin", adminRouter);
 app.use("/auth", authRouter);
 app.use("/adminAuth", adminAuth);
-app.use("/user", userRoute);
 
 // not found handler
 app.use("*", (req: Request, res: Response) => {

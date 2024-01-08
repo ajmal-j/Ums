@@ -16,7 +16,7 @@ export default function LogInForm({
 }: LogInFormType) {
   const [show, setShow] = useState<boolean>(false);
   return (
-    <section>
+    <main>
       <div className='w-full'>
         <div className='flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24'>
           <div className='mx-auto max-w-[450px] w-full bg-white/40 backdrop-blur-lg py-24 px-5 border border-black/20 rounded-2xl '>
@@ -91,6 +91,6 @@ export default function LogInForm({
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 }

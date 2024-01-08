@@ -6,12 +6,15 @@ const home = expressAsyncHandler(async (req, res) => {
 });
 
 const getData = expressAsyncHandler(async (req, res) => {
-  const { _id, name, email, profile, contact, ...rest } = res.locals.user;
+  const _id = res.locals.userId;
+  const user = await User.findById({ _id });
+  if (!user) throw new Error("User not found");
+  const { name, email, profile, contact } = user;
   res.status(200).json({ user: { _id, name, email, profile, contact } });
 });
 
 const updateUser = expressAsyncHandler(async (req, res) => {
-  const { _id } = res.locals.user;
+  const _id = res.locals.userId;
   const { data } = req.body;
 
   if (!data) throw new Error("Please provide a valid data");
@@ -41,7 +44,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
 const updateImage = expressAsyncHandler(async (req, res) => {
   const { url } = req.body;
   if (!url) throw new Error("Url not found");
-  const { _id } = res.locals.user;
+  const _id = res.locals.userId;
   await User.findByIdAndUpdate(_id, { $set: { profile: url } });
   res.status(200).json("Updated");
 });

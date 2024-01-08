@@ -1,6 +1,6 @@
-import Header from "../../components/header";
+import Header from "../../../components/header";
 import { Route, Routes } from "react-router-dom";
-import Profile from "../../components/profile";
+import Profile from "../../../components/profile";
 
 export default function Home() {
   return (

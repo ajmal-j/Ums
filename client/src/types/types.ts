@@ -8,3 +8,5 @@ export type UserDataType = {
   contact?: number;
   email?: string;
 };
+
+export type adminDataType = Omit<UserDataType, "contact">;

@@ -31,7 +31,6 @@ export default function AdminLogIn() {
               password: "",
             });
             const { adminData } = data;
-            console.log(adminData);
             setAdminToLocalStorage(adminData);
             toast.success("Logged In");
             navigate("dashboard");

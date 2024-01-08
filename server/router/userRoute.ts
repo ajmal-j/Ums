@@ -1,12 +1,12 @@
 import express from "express";
 import { getData, home, updateImage, updateUser } from "../controller/userController";
-import { protectJwt } from "../middlewares/authMiddleWare";
+import { protectUser } from "../middlewares/authMiddleWare";
 
 const userRoute = express.Router();
 
-userRoute.get("/", protectJwt, home);
-userRoute.get("/userData", protectJwt, getData);
-userRoute.patch("/updateUser", protectJwt, updateUser);
-userRoute.patch("/updateImage", protectJwt, updateImage);
+userRoute.get("/", protectUser, home);
+userRoute.get("/userData", protectUser, getData);
+userRoute.patch("/updateUser", protectUser, updateUser);
+userRoute.patch("/updateImage", protectUser, updateImage);
 
 export { userRoute };

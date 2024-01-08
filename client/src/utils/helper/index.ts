@@ -40,6 +40,21 @@ export const getLocalStorage: userCredentialsType = (): {
   return data;
 };
 
+export type adminCredentialsType = userCredentialsType;
+
+export const getAdminLocalStorage: adminCredentialsType = (): {
+  token: string;
+  name: string;
+  id: string;
+  profile: string;
+  email: string;
+} => {
+  const adminData = localStorage.getItem("adminCredentials");
+  if (!adminData) throw new Error("AdminData not found");
+  const data = JSON.parse(adminData);
+  return data;
+};
+
 export const updateLocalStorage = ({
   email,
   contact,

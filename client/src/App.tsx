@@ -1,9 +1,9 @@
 import { Toaster } from "react-hot-toast";
 import Authentication from "./pages/auth/userAuth";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/home";
+import Home from "./pages/home/user";
 import { UserContextProvider } from "./context/userContext";
-import AdminAuth from "./pages/auth/adminAuth";
+import Admin from "./pages/home/admin";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <UserContextProvider>
           <Routes>
             <Route path='/' element={<Authentication />} />
-            <Route path='/admin/*' element={<AdminAuth />} />
+            <Route path='/admin/*' element={<Admin />} />
             <Route path='/home/*' element={<Home />} />
           </Routes>
         </UserContextProvider>

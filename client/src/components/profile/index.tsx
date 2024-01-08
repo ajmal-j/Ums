@@ -15,7 +15,7 @@ import {
   setProfile,
   setUser,
   updateUser,
-} from "../../redux/user";
+} from "../../redux/reducers/user";
 import { axiosWithToken } from "../../utils/axios";
 import { UserAuth } from "../../context/userContext";
 import { saveImage, updateLocalStorage } from "../../utils/helper";
@@ -33,13 +33,21 @@ export default function Profile() {
   });
   const { updateUserDataInContext } = UserAuth();
 
-  // @ts-ignore
-  const userReducer = useSelector((state) => state?.userReducer);
+  const userReducer = useSelector(
+    (state: { userReducer: UserReduxType }) => state?.userReducer
+  );
   const dispatch = useDispatch();
+  ``;
 
   const updateImage = async () => {
     setImageLoader(true);
-    if (!image) return toast.error("Please select an image");
+    if (!image) {
+      toast.error("Please select an image", {
+        id: "selectImage",
+      });
+      setImageLoader(false);
+      return;
+    }
     try {
       const url = await saveImage(image);
       axiosWithToken
@@ -143,10 +151,9 @@ export default function Profile() {
               type='file'
               ref={imageInputRef}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                // @ts-ignore
-                const data = e.target?.files[0];
-                if (data) {
-                  setImage(data);
+                const data = e.target?.files;
+                if (data?.length) {
+                  setImage(data[0]);
                 }
               }}
               className='flex h-10 w-full max-w-[200px] rounded-full border border-input bg-transparent px-3 py-2 text-sm text-gray-500 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium'

@@ -1,21 +1,22 @@
-import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
 import AdminLogIn from "../../../components/adminLogIn";
-import Dashboard from "../../../components/dashboard";
+import { getAdminLocalStorage } from "../../../utils/helper";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminAuth() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    try {
+      const data = getAdminLocalStorage();
+      if (data && data.token) {
+        navigate("/admin/dashboard");
+      }
+    } catch (error) {
+    }
+  }, []);
   return (
-    <>
-      <Routes>
-        <Route
-          path='/'
-          element={
-            <div className='w-full h-screen bg-[url(/bg.svg)] bg-center bg-cover bg-no-repeat'>
-              <AdminLogIn />
-            </div>
-          }
-        />
-        <Route path='/dashboard' element={<Dashboard />} />
-      </Routes>
-    </>
+    <div className='w-full h-screen bg-[url(/bg.svg)] bg-center bg-cover bg-no-repeat'>
+      <AdminLogIn />
+    </div>
   );
 }

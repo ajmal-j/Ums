@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { UserDataType } from "../types/types";
-import { axiosWithToken } from "../utils/axios";
+import { UserDataType } from "../../types/types";
+import { axiosWithToken } from "../../utils/axios";
 import toast from "react-hot-toast";
-import { updateLocalStorage } from "../utils/helper";
+import { updateLocalStorage } from "../../utils/helper";
 
 export type UserReduxType = {
   loading: boolean;
@@ -19,9 +19,9 @@ const initialState: UserReduxType = {
   error: "",
 };
 
-export const updateUser = createAsyncThunk<any>(
+export const updateUser = createAsyncThunk<UserDataType | unknown>(
   "User/updateUser",
-  async (data: any, { rejectWithValue }) => {
+  async (data: UserDataType | any, { rejectWithValue }) => {
     try {
       const response = await axiosWithToken.patch("/updateUser", { data });
       return response.data;
@@ -56,7 +56,7 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      const data = action.payload;
+      const data: any = action.payload;
       state.error = "";
       const { email, name, contact } = data.user;
       state.email = email;
@@ -66,11 +66,15 @@ const userSlice = createSlice({
       toast.success("Updated");
     });
     builder.addCase(updateUser.rejected, (state, action) => {
-      const error: any = action.payload;
-      state.error = error;
+      const error: unknown | string = action.payload;
+      if (typeof error === "string") {
+        state.error = error;
+      } else {
+        console.log(error);
+      }
     });
   },
 });
 
-export const { setUser, setError, setLoading ,setProfile} = userSlice.actions;
+export const { setUser, setError, setLoading, setProfile } = userSlice.actions;
 export default userSlice.reducer;
