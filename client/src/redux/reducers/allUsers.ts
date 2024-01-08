@@ -27,11 +27,23 @@ const userSlice = createSlice({
     },
     updateDeletedUser: (state, action) => {
       const id = action.payload;
-      state.users.filter((user) => user._id !== id);
+      state.users = state.users.filter((user) => user._id !== id);
+    },
+    setUserProfile: (state, action) => {
+      const { url, id } = action.payload;
+      state.users.forEach((user) => {
+        if (user._id === id) {
+          user.profile = url;
+        }
+      });
     },
   },
 });
 
-export const { setAllUsers, updateUserDetails, updateDeletedUser } =
-  userSlice.actions;
+export const {
+  setAllUsers,
+  updateUserDetails,
+  updateDeletedUser,
+  setUserProfile,
+} = userSlice.actions;
 export default userSlice.reducer;

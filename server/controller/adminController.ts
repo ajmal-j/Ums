@@ -24,9 +24,42 @@ const editUser = expressAsyncHandler(async (req, res) => {
 });
 
 const deleteUser = expressAsyncHandler(async (req, res) => {
-  const id = req.body.data;
-  console.log(id);
+  const { id } = req.body;
+  await User.findByIdAndDelete(id);
   res.status(200).end();
 });
 
-export { getAdminData, allUser, editUser ,deleteUser};
+const updateUserProfile = expressAsyncHandler(async (req, res) => {
+  const { url, id } = req.body.data;
+  await User.findByIdAndUpdate(id, { $set: { profile: url } });
+  res.status(200).end();
+});
+
+const searchUser = expressAsyncHandler(async (req, res) => {
+  const query = req.body.data;
+  let regexQuery;
+  const parsedNumber = Number(query);
+  if (!isNaN(parsedNumber)) {
+    regexQuery = {
+      $or: [{ contact: { $eq: parsedNumber } }],
+    };
+  } else {
+    regexQuery = {
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { email: { $regex: query, $options: "i" } },
+      ],
+    };
+  }
+  const data = await User.find(regexQuery);
+  res.status(200).json(data);
+});
+
+export {
+  getAdminData,
+  allUser,
+  editUser,
+  deleteUser,
+  updateUserProfile,
+  searchUser,
+};

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   AllUserReduxType,
   setAllUsers,
+  setUserProfile,
   updateDeletedUser,
   updateUserDetails,
 } from "../../redux/reducers/allUsers";
@@ -16,10 +17,12 @@ import EditInput from "../editInput";
 import { EditInputValidation } from "../../utils/validationSchema";
 import toast from "react-hot-toast";
 import { handleError } from "../../utils/errorHandler";
+import { saveImage } from "../../utils/helper";
 
 export default function ListUsers() {
   const [users, setUsers] = useState<AllUserType>([]);
   const [edit, setEdit] = useState<boolean>(false);
+  const [imageLoader, setImageLoader] = useState<boolean>(false);
   const [user, setUser] = useState<UserDataType>();
   const [image, setImage] = useState<Blob | null>(null);
   const [editInputValue, setInput] = useState<
@@ -48,14 +51,13 @@ export default function ListUsers() {
 
   useEffect(() => {
     setUsers(allUserReducer.users);
-  }, [allUserReducer]);
+  }, [allUserReducer.users]);
 
   const handleDeleteUser = async (id: string | undefined): Promise<void> => {
-    console.log(id);
     try {
       const result = window.confirm("Confirm Delete.");
       if (result) {
-        await axiosWithAdminToken.delete("/deleteUser", { data: id });
+        await axiosWithAdminToken.delete("/deleteUser", { data: { id } });
         dispatch(updateDeletedUser(id));
         toast.success("Deleted successfully.");
       }
@@ -107,12 +109,89 @@ export default function ListUsers() {
     }
   };
 
+  const updateImage = async (id: string) => {
+    setImageLoader(true);
+    if (!image) {
+      toast.error("Please select an image", {
+        id: "selectImage",
+      });
+      setImageLoader(false);
+      return;
+    }
+    try {
+      const url = await saveImage(image);
+      axiosWithAdminToken
+        .patch("/updateImage", { data: { url, id } })
+        .then(() => {
+          dispatch(setUserProfile({ url, id }));
+          clearImageInput();
+          setEdit(false);
+          toast.success("Updated");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setImageLoader(false);
+    }
+  };
+
+  const searchInputRef = useRef<null | HTMLInputElement>(null);
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const searchQuery = searchInputRef.current?.value;
+    if (searchQuery === "") return;
+    axiosWithAdminToken
+      .post("/searchUser", { data: searchQuery })
+      .then(({ data }) => {
+        if (data) {
+          setUsers(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className='container relative w-full mx-auto bg-violet-300 mt-6 p-5 rounded-xl'>
       <div className='flex gap-4 items-baseline justify-between '>
-        <span className='text-2xl ps-2 pb-4 font-thin'>Users</span>
+        <span
+          className='text-2xl ps-2 pb-4 font-thin'
+          onClick={() => {
+            setUsers(allUserReducer.users);
+          }}
+        >
+          Users
+        </span>
         <span>Total : {users?.length}</span>
       </div>
+      <form onSubmit={handleSearch} className='flex my-3 gap-3'>
+        <input
+          ref={searchInputRef}
+          type='text'
+          placeholder='search users.'
+          className='w-full px-6 py-2 rounded-full placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 border border-gray-300 shadow-shadowFull'
+        />
+        <div className='flex shadow-shadowFull rounded-full'>
+          <button
+            className='w-[65px] text-center bg-white text-black/60 rounded-l-full border border-r-0 border-white/80 hover:bg-opacity-70 hover:font-bold hover:text-red-500 transition-colors duration-200 '
+            onClick={() => {
+              if (searchInputRef?.current) {
+                searchInputRef.current.value = "";
+              }
+              setUsers(allUserReducer.users);
+            }}
+          >
+            clear
+          </button>
+          <button className='w-[65px] bg-white border-l-0 text-black/60 rounded-r-full border border-white/80 hover:bg-opacity-70 hover:text-violet-800 hover:font-bold transition-colors duration-200 '>
+            search
+          </button>
+        </div>
+      </form>
       <div className='flex flex-col gap-3 '>
         {users?.map(({ contact, email, _id, name, profile, createdAt }) => (
           <List
@@ -162,7 +241,7 @@ export default function ListUsers() {
               <div className='flex gap-2 pt-4 items-center'>
                 <button
                   className={`w-7 h-7 flex items-center justify-center border rounded-full  ${
-                    false
+                    image
                       ? "text-white bg-red-500"
                       : "bg-violet-300 text-black/60"
                   }`}
@@ -186,11 +265,19 @@ export default function ListUsers() {
                 ></input>
                 <button
                   className={`px-5 py-2 border rounded-full bg-violet-700  ${
-                    false ? "text-white" : "bg-violet-300 text-black/60"
+                    image ? "text-white" : "bg-violet-300 text-black/60"
                   }`}
-                  // onClick={updateImage}
+                  onClick={() => {
+                    if (user?._id) {
+                      updateImage(user._id);
+                    }
+                  }}
                 >
-                  {false ? <FiLoader className='animate-spin' /> : <BsSave />}
+                  {imageLoader ? (
+                    <FiLoader className='animate-spin' />
+                  ) : (
+                    <BsSave />
+                  )}
                 </button>
               </div>
             </div>

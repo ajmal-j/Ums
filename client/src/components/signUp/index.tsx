@@ -44,8 +44,6 @@ const SignUp = ({ setLogIn }: SignUp) => {
     );
   };
 
-
-
   // submit from,
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,9 +56,9 @@ const SignUp = ({ setLogIn }: SignUp) => {
       SignUpTypeSchema.parse(state);
 
       let imageUrl;
-      if (!url) {
+      if (!url && image) {
         imageUrl = await saveImage(image);
-        setUrl(imageUrl)
+        setUrl(imageUrl);
       }
       authApi
         .post("/signUp", { ...data, profile: imageUrl || url })

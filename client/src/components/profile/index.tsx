@@ -39,7 +39,6 @@ export default function Profile() {
     (state: { userReducer: UserReduxType }) => state?.userReducer
   );
   const dispatch = useDispatch();
-  ``;
 
   const updateImage = async () => {
     setImageLoader(true);
@@ -53,7 +52,7 @@ export default function Profile() {
     try {
       const url = await saveImage(image);
       axiosWithToken
-        .patch("/updateImage", { url })
+        .patch("/updateUserProfile", { url })
         .then(() => {
           updateLocalStorage({ profile: url });
           updateUserDataInContext();
