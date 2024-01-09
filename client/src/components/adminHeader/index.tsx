@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { LuUser2 } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosWithAdminToken } from "../../utils/axios";
@@ -43,7 +42,7 @@ export default function AdminHeader() {
   }, []);
   return (
     <div className='h-[70px] bg-violet-200 flex justify-between items-center px-14'>
-      <Link to={"/home"}>
+      <Link to={"/admin/dashboard"}>
         <span className='text-xl'>User Management System :</span>
       </Link>
       <div className='flex items-center  relative'>
@@ -64,14 +63,14 @@ export default function AdminHeader() {
               >
                 <IoMdClose className='text-red-500' />
               </button>
-              <button
+              {/* <button
                 className='rounded-full bg-violet-600 px-3 mt-6 py-1 text-white/90 shadow-shadowFull flex items-center gap-2 border border-white/60'
                 // onClick={navigateToProfile}
               >
                 <LuUser2 /> Profile
-              </button>
+              </button> */}
               <button
-                className='rounded-full bg-violet-600 px-3 py-1  shadow-shadowFull flex items-center gap-2 text-white/90  border border-white/60'
+                className='rounded-full mt-6 bg-violet-600 px-3 py-1  shadow-shadowFull flex items-center gap-2 text-white/90  border border-white/60'
                 onClick={handleLogOut}
               >
                 <RiLogoutCircleLine className='text-red-500 font-bold' /> Logout

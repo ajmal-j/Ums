@@ -33,7 +33,8 @@ export const SignUpTypeSchema = z.object({
     }),
   contact: z
     .string()
-    .min(6, { message: "Enter a valid contact number" })
+    .min(10, { message: "Enter a valid contact number" })
+    .max(15, { message: "contact must be less than 15 characters" })
     .refine((data) => data.trim() === data, {
       message: "Trailing spaces are not allowed.",
     })

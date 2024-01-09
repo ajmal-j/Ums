@@ -97,7 +97,6 @@ export const saveImage = async (image: Blob | null) => {
       }
     );
     const cloudData = await res.json();
-    toast.success("Image Upload Successfully");
     let url = await cloudData.url;
     return url;
   } catch (error) {

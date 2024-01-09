@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400&display=swap");
+.searchBar {
+  border-radius: 20px;
+  width: 100%;
+  max-width: 85%;
+  font-family: "Urbanist", sans-serif;
+  box-shadow: 0px 0px 20px rgba(114, 114, 114, 0.759);
+  transition: 0.2s ease-in;
+}
+.searchBar:hover {
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.393);
+}
+
+.css-13cymwt-control {
+  border-radius: 20px !important;
+}

@@ -5,19 +5,31 @@ import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { UserAuth } from "../../context/userContext";
-import { getLocalStorage } from "../../utils/helper";
+import { updateLocalStorage } from "../../utils/helper";
+import { axiosWithToken } from "../../utils/axios";
 
 export default function Header() {
   const [profile, setProfile] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { user, setUser, updateUserDataInContext } = UserAuth();
+  const { user, setUser } = UserAuth();
+
   useEffect(() => {
     try {
-      getLocalStorage();
-      updateUserDataInContext();
+      axiosWithToken
+        .get("/userData")
+        .then((response) => {
+          const data = response.data.user;
+          const { email, name, profile } = data;
+          updateLocalStorage({ email, name, profile });
+          setUser({ email, profile, name });
+        })
+        .catch(() => {
+          localStorage.removeItem("userCredentials");
+          setUser(null);
+          navigate("/");
+        });
     } catch (error) {
       console.log(error);
-      navigate("/");
     }
   }, []);
   const handleLogOut = () => {
@@ -35,9 +47,9 @@ export default function Header() {
     navigate("profile");
   };
   return (
-    <div className='h-[70px] bg-white/70 flex justify-between items-center px-14'>
+    <div className='h-[70px] bg-violet-100 flex justify-between items-center px-14'>
       <Link to={"/home"}>
-        <span className='text-xl'>User Management System :</span>
+        <span className='text-xl'>Weather App :</span>
       </Link>
       <div className='flex items-center  relative'>
         <span className='capitalize pe-3'>{user?.name}</span>
@@ -49,7 +61,7 @@ export default function Header() {
           onClick={() => setProfile(!profile)}
         />
         {profile && (
-          <div className='absolute top-full bottom-[-50px] left-auto right-5'>
+          <div className='absolute top-full bottom-[-50px] left-auto right-5 z-30'>
             <div className='flex flex-col gap-5 bg-violet-600 rounded-xl border border-black/10 px-5 py-8'>
               <button
                 className='absolute top-3 right-3 bg-violet-800 p-1 rounded-full shadow-shadowFull '

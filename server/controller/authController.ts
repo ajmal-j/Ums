@@ -31,11 +31,15 @@ const logIn = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json({ userData });
 });
 
-const signUp = asyncHandler(async (req: Request, res: Response) => {
+const signUp = expressAsyncHandler(async (req: Request, res: Response) => {
   const { email, password, name, contact, profile } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    throw new Error("User already exist.");
+    throw new Error("Email is already in use.");
+  }
+  const contactExist = await User.findOne({ contact });
+  if (contactExist) {
+    throw new Error("Contact in use.");
   }
   const encryptedPassword = await hashPassword(password);
   const data: UserType = {
@@ -52,7 +56,7 @@ const signUp = asyncHandler(async (req: Request, res: Response) => {
     })
     .catch((error) => {
       console.log(error);
-      throw new Error("Error while creating user.");
+      throw new Error("Error while signUp.");
     });
 });
 

@@ -18,6 +18,8 @@ import { EditInputValidation } from "../../utils/validationSchema";
 import toast from "react-hot-toast";
 import { handleError } from "../../utils/errorHandler";
 import { saveImage } from "../../utils/helper";
+import { CiUser } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 export default function ListUsers() {
   const [users, setUsers] = useState<AllUserType>([]);
@@ -173,7 +175,14 @@ export default function ListUsers() {
         >
           Users
         </span>
-        <span>Total : {users?.length}</span>
+        <span className='flex gap-5 items-center'>
+          <span>Total : {users?.length}</span>
+          <Link to={"createUser"}>
+            <button className='flex items-center gap-2 bg-violet-500 px-3 py-1 rounded-xl shadow-shadowFull border border-white/60'>
+              create <CiUser />
+            </button>
+          </Link>
+        </span>
       </div>
       <form
         onSubmit={handleSearch}
@@ -182,11 +191,12 @@ export default function ListUsers() {
         <input
           ref={searchInputRef}
           type='text'
-          placeholder='search users.'
-          className='w-full px-6 py-2 rounded-full placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 border border-gray-300 shadow-shadowFull'
+          placeholder='search users by email , name or contact.'
+          className='w-full px-6 py-2 rounded-full placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 border border-gray-300 shadow-shadowFull'
         />
         <div className='flex shadow-shadowFull rounded-full'>
           <button
+            type='button'
             className='w-[65px] text-center bg-white text-red-500 rounded-l-full border border-r-black/10 border-white/80 hover:bg-opacity-70 hover:font-bold hover:text-red-500 transition-colors duration-200 '
             onClick={() => {
               if (searchInputRef?.current) {
@@ -197,7 +207,10 @@ export default function ListUsers() {
           >
             clear
           </button>
-          <button className='w-[65px] bg-white border-l-0 text-violet-800 rounded-r-full border border-white/80 hover:bg-opacity-70 hover:text-violet-800 hover:font-bold transition-colors duration-200 '>
+          <button
+            type='submit'
+            className='w-[65px] bg-white border-l-0 text-violet-800 rounded-r-full border border-white/80 hover:bg-opacity-70 hover:text-violet-800 hover:font-bold transition-colors duration-200 '
+          >
             search
           </button>
         </div>

@@ -57,8 +57,8 @@ export default function Login() {
             toast.error("An unexpected error occurred.");
           }
         })
-        .catch(({ response }) => {
-          toast.error(response.data.message);
+        .catch(error => {
+          toast.error(error?.response?.data?.message);
         });
     } catch (error) {
       handleError(error);

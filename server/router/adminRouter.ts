@@ -1,6 +1,7 @@
 import express from "express";
 import {
   allUser,
+  createUserByAdmin,
   deleteUser,
   editUser,
   getAdminData,
@@ -17,5 +18,6 @@ adminRouter.patch("/editUser", protectAdmin, editUser);
 adminRouter.delete("/deleteUser", protectAdmin, deleteUser);
 adminRouter.patch("/updateImage", protectAdmin, updateUserProfile);
 adminRouter.post("/searchUser", protectAdmin, searchUser);
+adminRouter.post("/createUserByAdmin", protectAdmin, createUserByAdmin);
 
 export default adminRouter;

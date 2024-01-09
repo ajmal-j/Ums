@@ -53,18 +53,18 @@ export default function Profile() {
     }
     try {
       const url = await saveImage(image);
-      axiosWithToken
-        .patch("/updateUserProfile", { url })
-        .then(() => {
-          updateLocalStorage({ profile: url });
-          updateUserDataInContext();
-          dispatch(setProfile(url));
-          clearImageInput();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (error) {
+      const uploaded = await axiosWithToken.patch("/updateImage", { url });
+      if (uploaded) {
+        updateLocalStorage({ profile: url });
+        updateUserDataInContext();
+        dispatch(setProfile(url));
+        clearImageInput();
+        toast.success("Image Upload Successfully");
+      }
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      }
       console.log(error);
     } finally {
       setImageLoader(false);
@@ -96,6 +96,8 @@ export default function Profile() {
 
   const setUserData = useCallback((data: UserReduxType) => {
     dispatch(setUser(data));
+    dispatch(setError(""));
+    dispatch(setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -105,10 +107,11 @@ export default function Profile() {
       .then((response) => {
         const data = response.data.user;
         setUserData(data);
+        dispatch(setError(""));
       })
       .catch((error) => {
         console.log(error);
-        dispatch(setError(error.response?.data?.message));
+        dispatch(setError(error?.response?.data?.message));
       })
       .finally(() => {
         dispatch(setLoading(false));

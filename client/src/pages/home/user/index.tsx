@@ -1,26 +1,14 @@
-import Header from "../../../components/header";
+import Header from "../../../components/userHeader";
 import { Route, Routes } from "react-router-dom";
 import Profile from "../../../components/profile";
+import WeatherApp from "../../../components/weatherApp";
 
 export default function Home() {
   return (
-    <div className='bg-violet-200 w-full min-h-screen'>
+    <div className=''>
       <Header />
       <Routes>
-        <Route
-          path='/'
-          element={
-            <div>
-              <iframe
-                title='Embedded Site'
-                width='100%'
-                height='875'
-                src='https://mytodo-app7.netlify.app/'
-                allowFullScreen
-              />
-            </div>
-          }
-        />
+        <Route path='/' element={<WeatherApp />} />
         <Route path='/profile' element={<Profile />} />
       </Routes>
     </div>

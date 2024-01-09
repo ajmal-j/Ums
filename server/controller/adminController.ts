@@ -1,6 +1,8 @@
 import expressAsyncHandler from "express-async-handler";
 import { Admin } from "../model/AdminModel";
-import { User } from "../model/UserModel";
+import { User, UserType } from "../model/UserModel";
+import { hashPassword } from "../utils/bcrypt";
+import { baseProfileUrl } from "../utils/helper";
 
 const getAdminData = expressAsyncHandler(async (req, res) => {
   const _id = res.locals.adminId;
@@ -55,6 +57,35 @@ const searchUser = expressAsyncHandler(async (req, res) => {
   res.status(200).json(data);
 });
 
+const createUserByAdmin = expressAsyncHandler(async (req, res) => {
+  const { email, password, name, contact, profile } = req.body;
+  const user = await User.findOne({ email });
+  if (user) {
+    throw new Error("Email is already in use.");
+  }
+  const contactExist = await User.findOne({ contact });
+  if (contactExist) {
+    throw new Error("Contact in use.");
+  }
+  const encryptedPassword = await hashPassword(password);
+  const data: UserType = {
+    email,
+    name,
+    contact,
+    password: encryptedPassword,
+    profile: profile ? profile : baseProfileUrl,
+  };
+
+  await User.create(data)
+    .then(() => {
+      res.status(200).json();
+    })
+    .catch((error) => {
+      console.log(error);
+      throw new Error("Error while creating user.");
+    });
+});
+
 export {
   getAdminData,
   allUser,
@@ -62,4 +93,5 @@ export {
   deleteUser,
   updateUserProfile,
   searchUser,
+  createUserByAdmin,
 };
