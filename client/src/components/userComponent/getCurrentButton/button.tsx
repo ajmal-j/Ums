@@ -29,7 +29,7 @@ export const Button = ({ onButtonClick }: any) => {
   };
   return (
     <button
-      className='bg-white/60 px-3 rounded-full border  shadow-shadowFullBlack'
+      className='bg-white px-3 rounded-full border  shadow-shadowFullBlack'
       onClick={getLocation}
     >
       Current &nbsp;<i className='fa-solid fa-location-arrow'></i>

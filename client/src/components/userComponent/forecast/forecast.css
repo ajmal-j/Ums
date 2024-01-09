@@ -27,7 +27,7 @@
 
 .daily-item:hover {
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.653);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.312);
 }
 
 .icon-small {

@@ -32,8 +32,8 @@ export default function AdminHeader() {
           dispatch(setAdmin(data));
         }
       })
-      .catch((error) => {
-        if (error.message === "AdminData not found") {
+      .catch((error: Error) => {
+        if (error?.message === "AdminData not found") {
           navigate("/admin");
         } else {
           console.log(error);

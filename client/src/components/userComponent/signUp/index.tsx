@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { reactSetStateType } from "../../../types/types";
 import { handleError } from "../../../utils/errorHandler";
 import { saveImage } from "../../../utils/helper";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 type SignUpType = {
   confirmPassword: string;
@@ -195,9 +196,9 @@ const SignUp = ({ setLogIn }: SignUp) => {
                     </label>
                     <span
                       onClick={() => setShow(show ? false : true)}
-                      className='ms-auto'
+                      className='ms-auto cursor-pointer text-lg'
                     >
-                      {show ? "hide" : "show"}
+                      {show ? <FaRegEye /> : <FaRegEyeSlash />}
                     </span>
                   </div>
                   <div className='mt-2'>
@@ -225,9 +226,9 @@ const SignUp = ({ setLogIn }: SignUp) => {
                       onClick={() =>
                         setShowOnConfirmPass(showConfirmPass ? false : true)
                       }
-                      className='ms-auto'
+                      className='ms-auto cursor-pointer text-lg'
                     >
-                      {showConfirmPass ? "hide" : "show"}
+                      {showConfirmPass ? <FaRegEye /> : <FaRegEyeSlash />}
                     </span>
                   </div>
                   <div className='mt-2'>
@@ -239,6 +240,11 @@ const SignUp = ({ setLogIn }: SignUp) => {
                       value={state.confirmPassword}
                       onChange={onKeyDown}
                       id='confirmPassword'
+                      onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        if (e?.key === "Enter") {
+                          handleSignUp(e);
+                        }
+                      }}
                     ></input>
                     <span className='text-red-600 text-sm'>&nbsp;</span>
                   </div>

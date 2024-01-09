@@ -47,7 +47,7 @@ export default function Header() {
     navigate("profile");
   };
   return (
-    <div className='h-[70px] bg-violet-100 flex justify-between items-center px-14'>
+    <div className='h-[70px] bg-[#bfb6ff] flex justify-between items-center px-14'>
       <Link to={"/home"}>
         <span className='text-xl'>Weather App :</span>
       </Link>
@@ -59,6 +59,7 @@ export default function Header() {
           className='w-[40px] cursor-pointer rounded-full flex-shrink-0
          h-[40px] border border-black/20 shadow-shadowFullBlack object-cover'
           onClick={() => setProfile(!profile)}
+          onMouseOver={() => setProfile(true)}
         />
         {profile && (
           <div className='absolute top-full bottom-[-50px] left-auto right-5 z-30'>

@@ -26,6 +26,7 @@ const adminSlice = createSlice({
       state.profile = profile;
     },
   },
+  
 });
 
 export const { setAdmin } = adminSlice.actions;

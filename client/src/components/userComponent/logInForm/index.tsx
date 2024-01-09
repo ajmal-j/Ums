@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { LogInType } from "../logIn";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 type LogInFormType = {
   handleLogIn: (e: React.FormEvent) => void;
@@ -57,9 +58,9 @@ export default function LogInForm({
                     </label>
                     <span
                       onClick={() => setShow(show ? false : true)}
-                      className='ms-auto cursor-pointer'
+                      className='ms-auto cursor-pointer text-lg'
                     >
-                      {show ? "hide" : "show"}
+                      {show ? <FaRegEye /> : <FaRegEyeSlash />}
                     </span>
                   </div>
                   <div className='mt-2'>
@@ -71,6 +72,11 @@ export default function LogInForm({
                       type={show ? "text" : "password"}
                       placeholder='Password'
                       onChange={onKeyDown}
+                      onKeyUp={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                        if (e?.key === "Enter") {
+                          handleLogIn(e);
+                        }
+                      }}
                     ></input>
                     <span className='text-red-600 text-sm block mb-2'>
                       &nbsp;

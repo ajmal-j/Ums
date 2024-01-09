@@ -97,7 +97,6 @@ export default function Profile() {
   const setUserData = useCallback((data: UserReduxType) => {
     dispatch(setUser(data));
     dispatch(setError(""));
-    dispatch(setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -105,7 +104,7 @@ export default function Profile() {
     axiosWithToken
       .get("/userData")
       .then((response) => {
-        const data = response.data.user;
+        const data = response?.data?.user;
         setUserData(data);
         dispatch(setError(""));
       })
@@ -114,7 +113,9 @@ export default function Profile() {
         dispatch(setError(error?.response?.data?.message));
       })
       .finally(() => {
-        dispatch(setLoading(false));
+        setTimeout(() => {
+          dispatch(setLoading(false));
+        }, 400);
       });
   }, []);
   function clearImageInput() {

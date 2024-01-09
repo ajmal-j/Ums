@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { handleError } from "../../../utils/errorHandler";
 import { saveImage } from "../../../utils/helper";
 import { Link } from "react-router-dom";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 type SignUpType = {
   confirmPassword: string;
@@ -199,7 +200,7 @@ const CreateUser = () => {
                       onClick={() => setShow(show ? false : true)}
                       className='ms-auto'
                     >
-                      {show ? "hide" : "show"}
+                      {show ? <FaRegEye /> : <FaRegEyeSlash />}
                     </span>
                   </div>
                   <div className='mt-2'>
@@ -229,7 +230,7 @@ const CreateUser = () => {
                       }
                       className='ms-auto'
                     >
-                      {showConfirmPass ? "hide" : "show"}
+                      {showConfirmPass ? <FaRegEye /> : <FaRegEyeSlash />}
                     </span>
                   </div>
                   <div className='mt-2'>

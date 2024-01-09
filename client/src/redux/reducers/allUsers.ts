@@ -46,4 +46,5 @@ export const {
   updateDeletedUser,
   setUserProfile,
 } = userSlice.actions;
+
 export default userSlice.reducer;
