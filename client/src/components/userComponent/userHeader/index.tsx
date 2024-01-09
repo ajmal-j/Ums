@@ -4,9 +4,9 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { UserAuth } from "../../context/userContext";
-import { updateLocalStorage } from "../../utils/helper";
-import { axiosWithToken } from "../../utils/axios";
+import { UserAuth } from "../../../context/userContext";
+import { updateLocalStorage } from "../../../utils/helper";
+import { axiosWithToken } from "../../../utils/axios";
 
 export default function Header() {
   const [profile, setProfile] = useState<boolean>(false);

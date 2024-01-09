@@ -6,18 +6,18 @@ import {
   setUserProfile,
   updateDeletedUser,
   updateUserDetails,
-} from "../../redux/reducers/allUsers";
-import { axiosWithAdminToken } from "../../utils/axios";
+} from "../../../redux/reducers/allUsers";
+import { axiosWithAdminToken } from "../../../utils/axios";
 import List from "../listItem";
-import { AllUserType, UserDataType } from "../../types/types";
+import { AllUserType, UserDataType } from "../../../types/types";
 import { IoMdClose } from "react-icons/io";
 import { FiLoader } from "react-icons/fi";
 import { BsSave } from "react-icons/bs";
-import EditInput from "../editInput";
-import { EditInputValidation } from "../../utils/validationSchema";
+import EditInput from "../../userComponent/editInput";
+import { EditInputValidation } from "../../../utils/validationSchema";
 import toast from "react-hot-toast";
-import { handleError } from "../../utils/errorHandler";
-import { saveImage } from "../../utils/helper";
+import { handleError } from "../../../utils/errorHandler";
+import { saveImage } from "../../../utils/helper";
 import { CiUser } from "react-icons/ci";
 import { Link } from "react-router-dom";
 

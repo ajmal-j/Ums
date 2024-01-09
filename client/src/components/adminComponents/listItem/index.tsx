@@ -1,5 +1,5 @@
 import moment from "moment";
-import { reactSetStateType } from "../../types/types";
+import { reactSetStateType } from "../../../types/types";
 
 type List = {
   name: string;

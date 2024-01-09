@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Login from "../../../components/logIn";
-import SignUp from "../../../components/signUp";
+import Login from "../../../components/userComponent/logIn";
+import SignUp from "../../../components/userComponent/signUp";
 import { UserAuth } from "../../../context/userContext";
 import { useNavigate } from "react-router-dom";
 

@@ -1,4 +1,4 @@
-import { UserDataType, reactSetStateType } from "../../types/types";
+import { UserDataType, reactSetStateType } from "../../../types/types";
 
 type EditInputType = {
   title: string;

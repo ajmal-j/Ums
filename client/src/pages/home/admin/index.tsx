@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import AdminAuth from "../../auth/adminAuth";
-import Dashboard from "../../../components/dashboard";
+import Dashboard from "../../../components/adminComponents/dashboard";
 
 export default function Admin() {
   return (

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { LogInType } from "../logIn";
-import { SignUpTypeSchema } from "../../utils/validationSchema";
-import { authApi } from "../../utils/axios";
+import { LogInType } from "../../userComponent/logIn";
+import { SignUpTypeSchema } from "../../../utils/validationSchema";
+import { axiosWithAdminToken } from "../../../utils/axios";
 import toast from "react-hot-toast";
-import { reactSetStateType } from "../../types/types";
-import { handleError } from "../../utils/errorHandler";
-import { saveImage } from "../../utils/helper";
+import { handleError } from "../../../utils/errorHandler";
+import { saveImage } from "../../../utils/helper";
+import { Link } from "react-router-dom";
 
 type SignUpType = {
   confirmPassword: string;
@@ -13,11 +13,7 @@ type SignUpType = {
   name: string;
 } & LogInType;
 
-type SignUp = {
-  setLogIn: reactSetStateType<boolean>;
-};
-
-const SignUp = ({ setLogIn }: SignUp) => {
+const CreateUser = () => {
   const [show, setShow] = useState<boolean>(false);
   const [image, setImage] = useState<any>("");
   const [url, setUrl] = useState<string>("");
@@ -45,14 +41,14 @@ const SignUp = ({ setLogIn }: SignUp) => {
   };
 
   // submit from,
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
     const { confirmPassword, ...data }: SignUpType = state;
     try {
       if (data.password !== confirmPassword) {
         throw new Error("Password not matches.");
       }
-      // from validation
+      // form validation
       SignUpTypeSchema.parse(state);
 
       let imageUrl;
@@ -60,8 +56,8 @@ const SignUp = ({ setLogIn }: SignUp) => {
         imageUrl = await saveImage(image);
         setUrl(imageUrl);
       }
-      authApi
-        .post("/signUp", { ...data, profile: imageUrl || url })
+      axiosWithAdminToken
+        .post("/createUserByAdmin", { ...data, profile: imageUrl || url })
         .then((response) => {
           const { status } = response;
           if (status === 200 || status === 201) {
@@ -72,8 +68,7 @@ const SignUp = ({ setLogIn }: SignUp) => {
               password: "",
               contact: "",
             });
-            toast.success("Signed up.");
-            setLogIn(true);
+            toast.success("User Created successfully.");
           } else {
             console.error(`Unexpected status code: ${status}`);
             toast.error("An unexpected error occurred.");
@@ -92,12 +87,19 @@ const SignUp = ({ setLogIn }: SignUp) => {
   return (
     <section>
       <div>
-        <div className='flex items-center justify-center px-4 py-3 sm:px-6 sm:py-8 lg:px-8 lg:py-5'>
+        <div className='flex items-center justify-center px-4 py-3 sm:px-6 sm:py-8 lg:px-8 lg:py-5 bg-violet-200  bg-center bg-cover bg-no-repeat'>
           <div className='mx-auto max-w-[450px] w-full bg-white/40 backdrop-blur-lg py-14 px-5 border border-black/20 rounded-2xl'>
+            <div className='flex justify-end'>
+              <Link to={"/admin/dashboard"}>
+                <button className='bg-violet-300  text-black/60 shadow-shadowFull px-3 py-1 border rounded-full hover:bg-violet-600 duration-200 hover:text-white hover:shadow-shadowFullBlack transition-colors'>
+                  back
+                </button>
+              </Link>
+            </div>
             <h2 className='text-3xl font-bold leading-tight text-black sm:text-4xl'>
-              Sign up
+              Create User
             </h2>
-            <form className='mt-8' onSubmit={handleSignUp}>
+            <form className='mt-8' onSubmit={handleCreateUser}>
               <div className='space-y-0'>
                 <div>
                   <label
@@ -246,10 +248,10 @@ const SignUp = ({ setLogIn }: SignUp) => {
                 <div>
                   <button
                     type='button'
-                    onClick={handleSignUp}
+                    onClick={handleCreateUser}
                     className='inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80 mt-5'
                   >
-                    Create Account <span className='ml-2' />
+                    Create User <span className='ml-2' />
                   </button>
                 </div>
               </div>
@@ -261,4 +263,4 @@ const SignUp = ({ setLogIn }: SignUp) => {
   );
 };
 
-export default SignUp;
+export default CreateUser;

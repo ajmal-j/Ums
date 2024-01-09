@@ -4,7 +4,7 @@ import { Button } from "../getCurrentButton/button.tsx";
 import Search from "../search/search.tsx";
 import CurrentWeather from "../current-weather/current-weather.tsx";
 import { Forecast } from "../forecast/forecast.tsx";
-import { weatherUrl, weather_key } from "../../utils/helper/api.ts";
+import { weatherUrl, weather_key } from "../../../utils/helper/api.ts";
 
 function WeatherApp() {
   const [currentWeather, setCurrentWeather] = useState(null);
@@ -41,14 +41,14 @@ function WeatherApp() {
   };
   return (
     <div className='containerMain bg-violet-200 min-h-screen'>
-      <div className="container mx-auto max-w-[1000px]">
-      <WeatherHeader />
-      <div className='searchContainer'>
-        <Search onSearchChange={handleOnSearchChange} />
-        <Button onButtonClick={handleLocationButtonClick} />
-      </div>
-      {currentWeather && <CurrentWeather data={currentWeather} />}
-      {forecast && <Forecast data={forecast} />}
+      <div className='container mx-auto max-w-[1000px]'>
+        <WeatherHeader />
+        <div className='searchContainer'>
+          <Search onSearchChange={handleOnSearchChange} />
+          <Button onButtonClick={handleLocationButtonClick} />
+        </div>
+        {currentWeather && <CurrentWeather data={currentWeather} />}
+        {forecast && <Forecast data={forecast} />}
       </div>
     </div>
   );

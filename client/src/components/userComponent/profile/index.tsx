@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { PiSpinner } from "react-icons/pi";
-import { UserDataType } from "../../types/types";
+import { UserDataType } from "../../../types/types";
 import { CiEdit } from "react-icons/ci";
 import { RiUploadCloud2Line } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,13 +15,13 @@ import {
   setProfile,
   setUser,
   updateUser,
-} from "../../redux/reducers/user";
-import { axiosWithToken } from "../../utils/axios";
-import { UserAuth } from "../../context/userContext";
-import { saveImage, updateLocalStorage } from "../../utils/helper";
+} from "../../../redux/reducers/user";
+import { axiosWithToken } from "../../../utils/axios";
+import { UserAuth } from "../../../context/userContext";
+import { saveImage, updateLocalStorage } from "../../../utils/helper";
 import toast from "react-hot-toast";
-import { EditInputValidation } from "../../utils/validationSchema";
-import { handleError } from "../../utils/errorHandler";
+import { EditInputValidation } from "../../../utils/validationSchema";
+import { handleError } from "../../../utils/errorHandler";
 
 export default function Profile() {
   const [edit, setEdit] = useState<boolean>(false);

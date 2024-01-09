@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { SignInTypeSchema } from "../../utils/validationSchema";
-import { authApi } from "../../utils/axios";
+import { SignInTypeSchema } from "../../../utils/validationSchema";
+import { authApi } from "../../../utils/axios";
 import toast from "react-hot-toast";
-import { handleError } from "../../utils/errorHandler";
+import { handleError } from "../../../utils/errorHandler";
 import { useNavigate } from "react-router-dom";
-import { setToLocalStorage } from "../../utils/helper";
+import { setToLocalStorage } from "../../../utils/helper";
 import LogInForm from "../logInForm";
 
 export type LogInType = {
@@ -57,7 +57,7 @@ export default function Login() {
             toast.error("An unexpected error occurred.");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           toast.error(error?.response?.data?.message);
         });
     } catch (error) {

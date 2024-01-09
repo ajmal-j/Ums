@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { LogInType } from "../logIn";
-import LogInForm from "../logInForm";
-import { SignInTypeSchema } from "../../utils/validationSchema";
-import { handleError } from "../../utils/errorHandler";
-import { adminAuthApi } from "../../utils/axios";
+import { LogInType } from "../../userComponent/logIn";
+import LogInForm from "../../userComponent/logInForm";
+import { SignInTypeSchema } from "../../../utils/validationSchema";
+import { handleError } from "../../../utils/errorHandler";
+import { adminAuthApi } from "../../../utils/axios";
 import toast from "react-hot-toast";
-import { setAdminToLocalStorage } from "../../utils/helper";
+import { setAdminToLocalStorage } from "../../../utils/helper";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminLogIn() {

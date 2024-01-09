@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosWithAdminToken } from "../../utils/axios";
+import { axiosWithAdminToken } from "../../../utils/axios";
 import { useDispatch, useSelector } from "react-redux";
-import { AdminReduxType, setAdmin } from "../../redux/reducers/admin";
+import { AdminReduxType, setAdmin } from "../../../redux/reducers/admin";
 
 export default function AdminHeader() {
   const [profile, setProfile] = useState<boolean>(false);
