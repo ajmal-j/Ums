@@ -264,7 +264,7 @@ export default function ListUsers() {
             <div className='flex flex-col mx-auto items-center my-5'>
               <div>
                 <img
-                  src={user?.profile}
+                  src={image ? URL.createObjectURL(image) : user?.profile}
                   alt=''
                   className='w-[150px] h-[150px] object-cover rounded-full'
                 />

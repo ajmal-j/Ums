@@ -17,7 +17,6 @@ import {
   updateUser,
 } from "../../../redux/reducers/user";
 import { axiosWithToken } from "../../../utils/axios";
-import { UserAuth } from "../../../context/userContext";
 import { saveImage, updateLocalStorage } from "../../../utils/helper";
 import toast from "react-hot-toast";
 import { EditInputValidation } from "../../../utils/validationSchema";
@@ -35,7 +34,6 @@ export default function Profile() {
     email: "",
     contact: 0,
   });
-  const { updateUserDataInContext } = UserAuth();
 
   const userReducer = useSelector(
     (state: { userReducer: UserReduxType }) => state?.userReducer
@@ -55,8 +53,6 @@ export default function Profile() {
       const url = await saveImage(image);
       const uploaded = await axiosWithToken.patch("/updateImage", { url });
       if (uploaded) {
-        updateLocalStorage({ profile: url });
-        updateUserDataInContext();
         dispatch(setProfile(url));
         clearImageInput();
         toast.success("Image Upload Successfully");
@@ -79,7 +75,6 @@ export default function Profile() {
       // @ts-ignore
       const response: any = await dispatch(updateUser(editInputValue));
       if (response.meta.requestStatus === "fulfilled") {
-        updateUserDataInContext();
         setEdit(false);
         setInput({
           email: "",
@@ -94,10 +89,13 @@ export default function Profile() {
     }
   };
 
-  const setUserData = useCallback((data: UserReduxType) => {
-    dispatch(setUser(data));
-    dispatch(setError(""));
-  }, []);
+  const setUserData = useCallback(
+    (data: UserReduxType) => {
+      dispatch(setUser(data));
+      dispatch(setError(""));
+    },
+    [userReducer]
+  );
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -107,17 +105,17 @@ export default function Profile() {
         const data = response?.data?.user;
         setUserData(data);
         dispatch(setError(""));
+        dispatch(setLoading(false));
       })
       .catch((error) => {
         console.log(error);
         dispatch(setError(error?.response?.data?.message));
       })
       .finally(() => {
-        setTimeout(() => {
-          dispatch(setLoading(false));
-        }, 400);
+        dispatch(setLoading(false));
       });
   }, []);
+
   function clearImageInput() {
     if (imageInputRef.current) {
       imageInputRef.current.files = null;
@@ -136,7 +134,7 @@ export default function Profile() {
         <div className='flex flex-col mx-auto items-center my-5'>
           <div>
             <img
-              src={userReducer?.profile}
+              src={image ? URL.createObjectURL(image) : userReducer?.profile}
               alt=''
               className='w-[150px] h-[150px] object-cover rounded-full'
             />

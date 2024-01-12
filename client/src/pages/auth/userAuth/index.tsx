@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import Login from "../../../components/userComponent/logIn";
 import SignUp from "../../../components/userComponent/signUp";
-import { UserAuth } from "../../../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { getLocalStorage } from "../../../utils/helper";
 
 export default function Authentication() {
   const [logIn, setLogIn] = useState<boolean>(true);
-  const { user } = UserAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    if (user) {
-      navigate("/home");
+    try {
+      const user = getLocalStorage();
+      if (user) {
+        navigate("/home");
+      }
+    } catch (error: any) {
+      console.log(error.message);
+      navigate('/')
     }
   }, []);
 

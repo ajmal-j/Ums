@@ -24,10 +24,10 @@ export const updateUser = createAsyncThunk<UserDataType | unknown>(
   async (data: UserDataType | any, { rejectWithValue }) => {
     try {
       const response = await axiosWithToken.patch("/updateUser", { data });
-      return response.data;
+      return response?.data;
     } catch (error: any) {
       console.log(error);
-      return rejectWithValue(error.response.data.message);
+      return rejectWithValue(error?.response?.data?.message);
     }
   }
 );
@@ -37,6 +37,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
+      if (action.payload === null) {
+        return initialState;
+      }
       const { email, _id, name, profile, contact } = action.payload;
       state.email = email;
       state.contact = contact;

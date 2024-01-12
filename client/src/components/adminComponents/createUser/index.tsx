@@ -89,7 +89,7 @@ const CreateUser = () => {
     <section>
       <div>
         <div className='flex items-center justify-center px-4 py-3 sm:px-6 sm:py-8 lg:px-8 lg:py-5 bg-violet-200  bg-center bg-cover bg-no-repeat'>
-          <div className='mx-auto max-w-[450px] w-full bg-white/40 backdrop-blur-lg py-14 px-5 border border-black/20 rounded-2xl'>
+          <div className='mx-auto max-w-[450px] w-full bg-white backdrop-blur-lg py-14 px-5 border border-black/20 rounded-2xl'>
             <div className='flex justify-end'>
               <Link to={"/admin/dashboard"}>
                 <button className='bg-violet-300  text-black/60 shadow-shadowFull px-3 py-1 border rounded-full hover:bg-violet-600 duration-200 hover:text-white hover:shadow-shadowFullBlack transition-colors'>
@@ -161,7 +161,7 @@ const CreateUser = () => {
                           setImage(data);
                         }
                       }}
-                      className='flex mt-2 h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-gray-500 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium'
+                      className='flex mt-2 h-10 w-full rounded-md border border-gray-300 border-input bg-transparent px-3 py-2 text-sm text-gray-500 file:border-0 file:bg-transparent file:text-gray-600 file:text-sm file:font-medium'
                     ></input>
                     <span className='text-red-600 text-sm'>&nbsp;</span>
                   </div>

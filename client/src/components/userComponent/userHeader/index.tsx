@@ -1,41 +1,54 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LuUser2 } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { UserAuth } from "../../../context/userContext";
-import { updateLocalStorage } from "../../../utils/helper";
 import { axiosWithToken } from "../../../utils/axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  UserReduxType,
+  setError,
+  setLoading,
+  setUser,
+} from "../../../redux/reducers/user";
 
 export default function Header() {
   const [profile, setProfile] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { user, setUser } = UserAuth();
+  const userReducer = useSelector(
+    (state: { userReducer: UserReduxType }) => state?.userReducer
+  );
+
+  const dispatch = useDispatch();
+
+  const setUserData = useCallback(
+    (data: UserReduxType) => {
+      dispatch(setUser(data));
+      dispatch(setError(""));
+    },
+    [userReducer]
+  );
 
   useEffect(() => {
-    try {
-      axiosWithToken
-        .get("/userData")
-        .then((response) => {
-          const data = response.data.user;
-          const { email, name, profile } = data;
-          updateLocalStorage({ email, name, profile });
-          setUser({ email, profile, name });
-        })
-        .catch(() => {
-          localStorage.removeItem("userCredentials");
-          setUser(null);
-          navigate("/");
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+    axiosWithToken
+      .get("/userData")
+      .then((response) => {
+        const data = response?.data?.user;
+        setUserData(data);
+        dispatch(setError(""));
+      })
+      .catch((error) => {
+        console.log(error);
+        navigate('/')
+        dispatch(setError(error?.response?.data?.message));
+      });
+  }, [userReducer]);
+
   const handleLogOut = () => {
     try {
       localStorage.removeItem("userCredentials");
-      setUser(null);
+      dispatch(setUser(null))
       toast.success("Logout successful.");
       navigate("/");
     } catch (error) {
@@ -52,9 +65,9 @@ export default function Header() {
         <span className='text-xl'>Weather App :</span>
       </Link>
       <div className='flex items-center  relative'>
-        <span className='capitalize pe-3'>{user?.name}</span>
+        <span className='capitalize pe-3'>{userReducer?.name}</span>
         <img
-          src={user?.profile}
+          src={userReducer?.profile}
           alt=''
           className='w-[40px] cursor-pointer rounded-full flex-shrink-0
          h-[40px] border border-black/20 shadow-shadowFullBlack object-cover'
