@@ -11,13 +11,14 @@ import {
 import { protectAdmin } from "../middlewares/authMiddleWare";
 
 const adminRouter = express.Router();
+adminRouter.use(protectAdmin);
 
-adminRouter.get("/adminData", protectAdmin, getAdminData);
-adminRouter.get("/allUser", protectAdmin, allUser);
-adminRouter.patch("/editUser", protectAdmin, editUser);
-adminRouter.delete("/deleteUser", protectAdmin, deleteUser);
-adminRouter.patch("/updateImage", protectAdmin, updateUserProfile);
-adminRouter.post("/searchUser", protectAdmin, searchUser);
-adminRouter.post("/createUserByAdmin", protectAdmin, createUserByAdmin);
+adminRouter.get("/adminData", getAdminData);
+adminRouter.get("/allUser", allUser);
+adminRouter.patch("/editUser", editUser);
+adminRouter.delete("/deleteUser", deleteUser);
+adminRouter.patch("/updateImage", updateUserProfile);
+adminRouter.post("/searchUser", searchUser);
+adminRouter.post("/createUserByAdmin", createUserByAdmin);
 
 export default adminRouter;
