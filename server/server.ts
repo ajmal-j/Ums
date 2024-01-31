@@ -13,18 +13,27 @@ const port = 3000;
 app.use(cors());
 connect();
 
-app.use("/user", userRoute);
-app.use("/admin", adminRouter);
-app.use("/auth", authRouter);
-app.use("/adminAuth", adminAuth);
+app.get("api/v1/", (_, res) => {
+  res.send("working");
+});
+
+// routes
+app.use("api/v1/user", userRoute);
+app.use("api/v1/admin", adminRouter);
+app.use("api/v1/auth", authRouter);
+app.use("api/v1/adminAuth", adminAuth);
 
 // not found handler
 app.use("*", (req: Request, res: Response) => {
+  console.log('blalalalaalalalalal');
+  console.log(req);
   res.status(404).send(`${req.originalUrl} Not Found`);
 });
 
 // error handler
 app.use(errorHandler);
+
+// listening
 app.listen(port, () => {
-  console.log("running");
+  console.log(`Running server on : http://localhost:${port}`);
 });
