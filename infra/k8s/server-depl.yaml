@@ -15,6 +15,14 @@ spec:
       containers:
         - name: server
           image: ajmalj/umsserver:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: mongo-url
 ---
 apiVersion: v1
 kind: Service

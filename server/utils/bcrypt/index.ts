@@ -12,7 +12,6 @@ export const hashPassword: HashPasswordType = async (
 ): Promise<string> => {
   const salt = await bcrypt.genSalt(10);
   const encryptedPassword = await bcrypt.hash(password, salt);
-  console.log(encryptedPassword);
   return encryptedPassword;
 };
 

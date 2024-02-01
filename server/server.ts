@@ -13,15 +13,15 @@ const port = 3000;
 app.use(cors());
 connect();
 
-app.get("api/v1/", (_, res) => {
+app.get("/api/v1/", (_, res) => {
   res.send("working");
 });
 
 // routes
-app.use("api/v1/user", userRoute);
-app.use("api/v1/admin", adminRouter);
-app.use("api/v1/auth", authRouter);
-app.use("api/v1/adminAuth", adminAuth);
+app.use("/api/v1/user", userRoute);
+app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/adminAuth", adminAuth);
 
 // not found handler
 app.use("*", (req: Request, res: Response) => {
