@@ -1,3 +1,8 @@
+# v1 refers to the core API group, which includes resources like Pods, Services, ConfigMaps, etc.
+# apps/v1 is used for higher-level abstractions like Deployments and StatefulSets.
+# batch/v1 is used for CronJobs.
+# networking.k8s.io/v1 is used for Ingress resources.
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -52,4 +52,4 @@ spec:
     - port: 27017
       targetPort: 27017
       protocol: TCP
-      nodePort: 30100
+      nodePort: 30100 
