@@ -56,7 +56,7 @@ export default function Header() {
   return (
     <div className='h-[70px] bg-[#bfb6ff] flex justify-between items-center lg:px-14 px-2'>
       <Link to={"/home"}>
-        <span className='text-xl'>Weather Glance :</span>
+        <span className='text-xl headline md:text-2xl'>Weather Glance</span>
       </Link>
       {userReducer?.email ? (
         <div className='flex items-center relative'>

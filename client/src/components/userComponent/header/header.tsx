@@ -22,8 +22,9 @@ export const WeatherHeader = () => {
   const minutes = time.getMinutes();
   return (
     <div className='headerContainer'>
-      <span className='mainHeader'>
-        Check Weather <span className='material-symbols-outlined'>routine</span>
+      <span className='mainHeader flex items-center gap-3'>
+        <span className='md:w-max w-min'>Check Weather</span>
+        <span className='material-symbols-outlined w-min h-min'>routine</span>
       </span>
       <p className='timeDiv'>
         <span className='timeNow'>Time Now </span>

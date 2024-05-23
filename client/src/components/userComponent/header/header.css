@@ -3,9 +3,15 @@
 .mainHeader {
   color: rgba(43, 43, 43, 0.83);
   font-weight: bolder;
+  line-height: 1;
   font-size: 50px;
   font-family: "Urbanist", sans-serif;
 }
+
+.headline {
+  font-family: "Urbanist", sans-serif;
+}
+
 .timeDiv {
   color: rgb(80, 80, 80);
   font-size: larger;
