@@ -44,7 +44,7 @@ export default function Header() {
       localStorage.removeItem("userCredentials");
       dispatch(setUser(null));
       toast.success("Logout successful.");
-      navigate("/");
+      navigate("/auth");
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +99,7 @@ export default function Header() {
         <div className='flex items-center justify-center'>
           <button
             className='rounded-full bg-violet-600 px-3 py-2 text-white/90 shadow-shadowFull flex items-center gap-2 border border-white/60'
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/auth")}
           >
             <LuUser2 />
           </button>

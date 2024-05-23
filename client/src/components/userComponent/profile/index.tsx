@@ -111,7 +111,7 @@ export default function Profile() {
       })
       .catch((error) => {
         console.log(error);
-        navigate("/");
+        navigate("/auth");
         dispatch(setError(error?.response?.data?.message));
       })
       .finally(() => {

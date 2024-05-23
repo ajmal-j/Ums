@@ -52,7 +52,7 @@ export default function Login() {
             const { userData } = data;
             setToLocalStorage(userData);
             toast.success("Logged In");
-            navigate("/home");
+            navigate("/");
           } else {
             toast.error("An unexpected error occurred.");
           }

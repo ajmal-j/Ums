@@ -8,11 +8,11 @@ function App() {
   return (
     <>
       <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Authentication />} />
-            <Route path='/admin/*' element={<Admin />} />
-            <Route path='/home/*' element={<Home />} />
-          </Routes>
+        <Routes>
+          <Route path='/auth' element={<Authentication />} />
+          <Route path='/admin/*' element={<Admin />} />
+          <Route path='/*' element={<Home />} />
+        </Routes>
       </BrowserRouter>
       <Toaster position='top-right' reverseOrder={false} />
     </>

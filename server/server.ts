@@ -10,7 +10,17 @@ const app: Express = express();
 app.use(express.json());
 import cors from "cors";
 const port = 3000;
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:8080",
+      "https://weatherglance.vercel.app",
+      "http://localhost:4173",
+    ],
+    credentials: true,
+  })
+);
 connect();
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {

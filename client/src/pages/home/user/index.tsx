@@ -5,7 +5,7 @@ import WeatherApp from "../../../components/userComponent/weatherApp";
 
 export default function Home() {
   return (
-    <div className=''>
+    <div>
       <Header />
       <Routes>
         <Route path='/' element={<WeatherApp />} />
