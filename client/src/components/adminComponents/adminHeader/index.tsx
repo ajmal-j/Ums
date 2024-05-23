@@ -43,7 +43,7 @@ export default function AdminHeader() {
   return (
     <div className='h-[70px] bg-violet-200 flex justify-between items-center px-14'>
       <Link to={"/admin/dashboard"}>
-        <span className='text-xl'>User Management System :</span>
+        <span className='text-xl'>Weather Glance Admin :</span>
       </Link>
       <div className='flex items-center  relative'>
         <span className='capitalize pe-3'>{adminReducer?.name}</span>
