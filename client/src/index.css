@@ -53,9 +53,6 @@ input::-webkit-inner-spin-button {
   gap: 15px;
   justify-content: center;
 }
-.containerMain {
-  padding: 30px;
-}
 
 body {
   min-height: 100vh;

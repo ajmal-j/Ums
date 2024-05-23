@@ -39,8 +39,8 @@ function WeatherApp() {
   const handleLocationButtonClick = (location: any) => {
     handleOnSearchChange(location);
   };
-  return ( 
-    <div className='containerMain bg-[url(/weatherBG.svg)] bg-no-repeat bg-cover bg-center min-h-screen'>
+  return (
+    <div className='md:px-14 px-2 bg-[url(/weatherBG.svg)] bg-no-repeat bg-cover bg-center min-h-screen'>
       <div className='container mx-auto max-w-[1000px]'>
         <WeatherHeader />
         <div className='searchContainer'>

@@ -89,15 +89,13 @@ export const saveImage = async (image: Blob | null) => {
     if (image === null) {
       return toast.error("Please Upload image");
     }
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dho2z1pix/image/upload",
-      {
-        method: "POST",
-        body: data,
-      }
-    );
+    const apiKey = import.meta.env.VITE_CLOUDINARY_URL!;
+    const res = await fetch(apiKey, {
+      method: "POST",
+      body: data,
+    });
     const cloudData = await res.json();
-    let url = await cloudData.url;
+    const url = await cloudData.url;
     return url;
   } catch (error) {
     console.log(error);

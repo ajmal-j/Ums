@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import { BsSave } from "react-icons/bs";
+import { CiEdit } from "react-icons/ci";
+import { FiLoader } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 import { PiSpinner } from "react-icons/pi";
-import { UserDataType } from "../../../types/types";
-import { CiEdit } from "react-icons/ci";
 import { RiUploadCloud2Line } from "react-icons/ri";
-import { useSelector, useDispatch } from "react-redux";
-import { FiLoader } from "react-icons/fi";
-import { BsSave } from "react-icons/bs";
-import EditInput from "../editInput";
+import { useDispatch, useSelector } from "react-redux";
 import {
   UserReduxType,
   setError,
@@ -16,11 +15,13 @@ import {
   setUser,
   updateUser,
 } from "../../../redux/reducers/user";
+import { UserDataType } from "../../../types/types";
 import { axiosWithToken } from "../../../utils/axios";
-import { saveImage, updateLocalStorage } from "../../../utils/helper";
-import toast from "react-hot-toast";
-import { EditInputValidation } from "../../../utils/validationSchema";
 import { handleError } from "../../../utils/errorHandler";
+import { saveImage } from "../../../utils/helper";
+import { EditInputValidation } from "../../../utils/validationSchema";
+import EditInput from "../editInput";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const [edit, setEdit] = useState<boolean>(false);
@@ -39,6 +40,7 @@ export default function Profile() {
     (state: { userReducer: UserReduxType }) => state?.userReducer
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const updateImage = async () => {
     setImageLoader(true);
@@ -109,6 +111,7 @@ export default function Profile() {
       })
       .catch((error) => {
         console.log(error);
+        navigate("/");
         dispatch(setError(error?.response?.data?.message));
       })
       .finally(() => {

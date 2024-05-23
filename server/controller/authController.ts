@@ -62,7 +62,7 @@ const signUp = expressAsyncHandler(async (req: Request, res: Response) => {
 
 const adminLogIn = expressAsyncHandler(async (req, res) => {
   const { email, password } = req.body.data;
-  const user = await User.findOne({ email });
+  const user = await Admin.findOne({ email });
   if (!user) throw new Error("Invalid Credentials.");
   const comparePass = await matchPassword(password, user.password);
   if (!comparePass) throw new Error("Password not matches.");

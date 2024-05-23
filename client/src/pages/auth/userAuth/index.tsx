@@ -1,23 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Login from "../../../components/userComponent/logIn";
 import SignUp from "../../../components/userComponent/signUp";
-import { useNavigate } from "react-router-dom";
-import { getLocalStorage } from "../../../utils/helper";
 
 export default function Authentication() {
   const [logIn, setLogIn] = useState<boolean>(true);
-  const navigate = useNavigate();
-  useEffect(() => {
-    try {
-      const user = getLocalStorage();
-      if (user) {
-        navigate("/home");
-      }
-    } catch (error: any) {
-      console.log(error.message);
-      navigate('/')
-    }
-  }, []);
 
   return (
     <div className='w-full h-screen bg-[url(/bg.svg)] bg-center bg-cover bg-no-repeat'>
