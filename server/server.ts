@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import { auth as authRouter } from "./router/authentication";
 import { errorHandler } from "./middlewares/errorHandler";
 import { userRoute } from "./router/userRoute";
@@ -13,6 +13,11 @@ const port = 3000;
 app.use(cors());
 connect();
 
+app.all("*", (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.method, "-", req.originalUrl);
+  next();
+});
+
 app.get("/api/v1/", (_, res) => {
   res.send("working");
 });
@@ -25,7 +30,6 @@ app.use("/api/v1/adminAuth", adminAuth);
 
 // not found handler
 app.use("*", (req: Request, res: Response) => {
-  console.log('blalalalaalalalalal');
   console.log(req);
   res.status(404).send(`${req.originalUrl} Not Found`);
 });
