@@ -21,7 +21,7 @@ export default function LogInForm({
       <div className='w-full'>
         <div className='flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24'>
           <div className='mx-auto max-w-[450px] w-full bg-white/40 backdrop-blur-lg py-24 px-5 border border-black/20 rounded-2xl '>
-            <h2 className='text-3xl font-bold leading-tight text-black sm:text-4xl'>
+            <h2 className='text-3xl font-bold leading-tight text-black sm:text-4xl customFont'>
               {title}
             </h2>
             <form onSubmit={handleLogIn} className='mt-8'>

@@ -95,7 +95,7 @@ const SignUp = ({ setLogIn }: SignUp) => {
       <div>
         <div className='flex items-center justify-center px-4 py-3 sm:px-6 sm:py-8 lg:px-8 lg:py-5'>
           <div className='mx-auto max-w-[450px] w-full bg-white/40 backdrop-blur-lg py-14 px-5 border border-black/20 rounded-2xl'>
-            <h2 className='text-3xl font-bold leading-tight text-black sm:text-4xl'>
+            <h2 className='text-3xl font-bold leading-tight text-black sm:text-4xl customFont'>
               Sign up
             </h2>
             <form className='mt-8' onSubmit={handleSignUp}>
