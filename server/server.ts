@@ -40,7 +40,7 @@ app.use("/api/v1/adminAuth", adminAuth);
 
 // not found handler
 app.use("*", (req: Request, res: Response) => {
-  console.log(req);
+  console.log(req.method, "-", req.originalUrl,'- not found');
   res.status(404).send(`${req.originalUrl} Not Found`);
 });
 
