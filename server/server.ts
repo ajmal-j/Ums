@@ -9,6 +9,8 @@ import { connect } from "./config/db";
 const app: Express = express();
 app.use(express.json());
 import cors from "cors";
+import cron from "node-cron";
+import { sendRequest } from "./utils/helper";
 const port = 3000;
 
 app.use(
@@ -40,8 +42,13 @@ app.use("/api/v1/adminAuth", adminAuth);
 
 // not found handler
 app.use("*", (req: Request, res: Response) => {
-  console.log(req.method, "-", req.originalUrl,'- not found');
+  console.log(req.method, "-", req.originalUrl, "- not found");
   res.status(404).send(`${req.originalUrl} Not Found`);
+});
+
+cron.schedule("*/14 * * * *", () => {
+  console.log("Running cron job at", new Date().toLocaleString());
+  sendRequest();
 });
 
 // error handler
